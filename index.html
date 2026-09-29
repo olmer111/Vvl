@@ -1,1 +1,2497 @@
-The requested file reference is not currently visible. Use files.search or files.list to rediscover the file, then retry with a returned ref_id or file_id.
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGRO·COM - Caracterización & Liquid Censo</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- GSAP CDN for smooth spring physics and page transitions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Vanilla-Tilt for 3D Apple Vision/Liquid Glass tilt & glare -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <!-- Canvas Confetti for celebratory registration feedback -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"Space Grotesk"', 'monospace']
+          },
+          colors: {
+            ios: {
+              bg: '#040714',
+              surface: 'rgba(15, 23, 42, 0.55)',
+              border: 'rgba(255, 255, 255, 0.12)',
+              blue: '#0A84FF',
+              cyan: '#30D158',
+              accent: '#38BDF8',
+              card: 'rgba(23, 37, 65, 0.35)',
+              chip: 'rgba(255, 255, 255, 0.06)'
+            }
+          },
+          boxShadow: {
+            'apple-glass': '0 25px 60px -15px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+            'apple-glow': '0 0 35px -5px rgba(10, 132, 255, 0.45)',
+            'apple-emerald': '0 0 35px -5px rgba(48, 209, 88, 0.35)',
+            'apple-card': '0 12px 35px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    
+    body {
+      background-color: #030612;
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(10, 132, 255, 0.22) 0px, transparent 50%),
+        radial-gradient(at 90% 15%, rgba(56, 189, 248, 0.18) 0px, transparent 55%),
+        radial-gradient(at 50% 85%, rgba(48, 209, 88, 0.12) 0px, transparent 65%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Apple Liquid Glass Container */
+    .liquid-glass {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 100%);
+      backdrop-filter: blur(32px) saturate(200%);
+      -webkit-backdrop-filter: blur(32px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    }
+
+    .liquid-glass-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.015) 100%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0.5px rgba(255, 255, 255, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .liquid-glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 45px -10px rgba(10, 132, 255, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    }
+
+    /* 3D Glass Glare reflection container */
+    .tilt-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* Apple Pill Buttons */
+    .apple-btn-primary {
+      background: linear-gradient(180deg, #2fa3ff 0%, #0071e3 100%);
+      box-shadow: 0 6px 20px rgba(0, 113, 227, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .apple-btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 26px rgba(0, 113, 227, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    }
+    .apple-btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .apple-btn-secondary {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      transition: all 0.2s ease;
+    }
+    .apple-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    /* Tab Pill Active State */
+    .nav-tab-btn {
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      color: #94a3b8;
+    }
+    .nav-tab-btn.active {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Interactive Chip Button */
+    .chip-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .chip-toggle.active {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.32) 0%, rgba(56, 189, 248, 0.22) 100%);
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    /* Apple Spring & Bounce Micro-Animations */
+    @keyframes appleBounce {
+      0% { transform: scale(1); }
+      30% { transform: scale(0.85); }
+      65% { transform: scale(1.12); }
+      85% { transform: scale(0.97); }
+      100% { transform: scale(1); }
+    }
+
+    .dock-btn {
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .dock-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .dock-btn:active {
+      transform: scale(0.92);
+    }
+
+    .dock-btn.bouncing {
+      animation: appleBounce 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .dock-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+    }
+
+    /* Center Action Pulse Glow */
+    .dock-center-action {
+      background: linear-gradient(180deg, #38bdf8 0%, #0071e3 100%);
+      box-shadow: 0 8px 24px rgba(0, 113, 227, 0.55), inset 0 1px 1.5px rgba(255, 255, 255, 0.6);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dock-center-action:hover {
+      transform: translateY(-3px) scale(1.08);
+      box-shadow: 0 12px 30px rgba(0, 113, 227, 0.75), inset 0 1px 1.5px rgba(255, 255, 255, 0.8);
+    }
+
+    .dock-center-action:active {
+      transform: scale(0.94);
+    }
+
+    /* View transition animation */
+    .app-view {
+      animation: fadeInView 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeInView {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom Glass Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
+    body.auth-locked > *:not(#auth-gate) { visibility: hidden; }
+    #auth-gate { display: flex; }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen antialiased selection:bg-ios-blue selection:text-white pb-24 md:pb-12 auth-locked">
+  <div id="auth-gate" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-[#030612]/95 backdrop-blur-2xl">
+    <div class="liquid-glass w-full max-w-md rounded-[2rem] p-6 sm:p-8 border border-white/15 shadow-apple-glass">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 via-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-apple-glow"><i class="ph-fill ph-plant text-2xl"></i></div>
+        <div><p class="text-[10px] uppercase tracking-[0.2em] text-sky-400 font-bold">AGRO·COM</p><h1 class="text-xl font-black text-white">Acceso seguro</h1></div>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed mb-5">Inicia sesión para acceder al censo y sincronizar los registros con Supabase.</p>
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-3">
+        <input id="auth-email" type="email" autocomplete="email" required placeholder="Correo electrónico" class="w-full rounded-2xl bg-white/[0.06] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-sky-400/60">
+        <input id="auth-password" type="password" autocomplete="current-password" minlength="6" required placeholder="Contraseña (mínimo 6 caracteres)" class="w-full rounded-2xl bg-white/[0.06] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-sky-400/60">
+        <button id="auth-submit" type="submit" class="w-full apple-btn-primary rounded-2xl py-3 text-sm font-bold text-white flex items-center justify-center gap-2"><i class="ph-bold ph-sign-in"></i><span id="auth-submit-text">Iniciar sesión</span></button>
+      </form>
+      <button type="button" onclick="toggleAuthMode()" class="w-full mt-3 py-2 text-xs text-sky-300 hover:text-sky-200 transition" id="auth-toggle">¿No tienes cuenta? Crear cuenta</button>
+      <p id="auth-status" class="text-[11px] text-center text-slate-400 min-h-5 mt-2"></p>
+      <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-center gap-2 text-[10px] text-slate-500"><i class="ph-fill ph-shield-check text-emerald-400"></i> Datos protegidos mediante RLS de Supabase</div>
+    </div>
+  </div>
+
+  <!-- Floating Liquid Apple Header -->
+  <header class="sticky top-3 z-40 max-w-6xl w-[95%] mx-auto mt-2">
+    <div class="liquid-glass rounded-3xl sm:rounded-full px-4 sm:px-6 py-3 flex items-center justify-between border border-white/15 gap-3">
+      
+      <!-- Brand & Location -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-500 via-blue-600 to-indigo-500 flex items-center justify-center shadow-apple-glow text-white">
+          <i class="ph-fill ph-plant text-xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold tracking-tight text-base sm:text-lg bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-sky-300">
+              AGRO<span class="text-sky-400">·COM</span>
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 font-semibold tracking-wide">
+              Sistema Censo
+            </span>
+          </div>
+          <p class="text-[10px] text-slate-400 -mt-0.5">El Plateado • Argelia, Cauca</p>
+        </div>
+      </div>
+
+      <!-- Quick Status Indicators (Header Right) -->
+      <div class="flex items-center gap-2.5">
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Base Local Sincronizada</span>
+        </div>
+        <button onclick="switchView('registro')" class="apple-btn-primary px-4 sm:px-5 py-2 rounded-full text-white text-xs sm:text-sm font-semibold flex items-center gap-2 cursor-pointer shadow-apple-glow">
+          <i class="ph-bold ph-plus-circle text-base"></i>
+          <span>Censar</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Fluid Adaptive Bottom Floating Dock (PC & Mobile Distributed) -->
+  <div class="fixed bottom-3 sm:bottom-6 left-0 right-0 z-40 flex justify-center px-3 sm:px-6 pointer-events-none">
+    <div class="pointer-events-auto liquid-glass rounded-full px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between w-full max-w-sm sm:max-w-xl md:max-w-2xl border border-white/20 shadow-apple-glass gap-1 sm:gap-2">
+      
+      <!-- Tab 1: Dashboard -->
+      <button onclick="switchView('dashboard')" id="dock-btn-dashboard" class="dock-btn active flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-fill ph-squares-four text-base sm:text-lg text-sky-400"></i>
+        <span>Tablero</span>
+      </button>
+
+      <!-- Tab 2: Cruces -->
+      <button onclick="switchView('cruces')" id="dock-btn-cruces" class="dock-btn flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-bold ph-git-fork text-base sm:text-lg"></i>
+        <span>Cruces</span>
+      </button>
+
+      <!-- Center Action: Nueva Ficha -->
+      <button onclick="switchView('registro')" id="dock-btn-registro" class="dock-center-action w-11 h-11 sm:w-12 sm:h-12 -mt-4 sm:-mt-5 rounded-full flex items-center justify-center text-white flex-shrink-0 cursor-pointer" title="Registrar Productor Ficha a Ficha">
+        <i class="ph-bold ph-plus text-xl transition-transform duration-300"></i>
+      </button>
+
+      <!-- Tab 4: Padrón -->
+      <button onclick="switchView('directorio')" id="dock-btn-directorio" class="dock-btn flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-bold ph-address-book text-base sm:text-lg"></i>
+        <span>Padrón</span>
+      </button>
+
+      <!-- Tab 5: Veredas -->
+      <button onclick="switchView('territorio')" id="dock-btn-territorio" class="dock-btn flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-bold ph-map-trifold text-base sm:text-lg"></i>
+        <span>Veredas</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 1: TABLERO EJECUTIVO (DASHBOARD)                                    -->
+    <!-- ======================================================================= -->
+    <div id="view-dashboard" class="app-view space-y-6">
+
+      <!-- Hero Welcome Banner -->
+      <div class="liquid-glass rounded-3xl p-6 sm:p-8 border border-white/15 relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-60 h-60 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-2xl space-y-2 relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-400/10 border border-sky-400/25 text-sky-300 text-xs font-semibold">
+            <i class="ph-fill ph-check-circle"></i> Plataforma Oficial de Caracterización Campesina
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+            Censo Agropecuario & Cruce Estratégico de Proyectos
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-300">
+            Control de productores, predios georreferenciados y formulación inmediata de proyectos para el corregimiento de <strong class="text-white">El Plateado y veredas de Argelia</strong>.
+          </p>
+        </div>
+
+        <!-- Direct Action Bar inside Hero -->
+        <div class="mt-6 flex flex-wrap gap-2.5">
+          <button onclick="switchView('cruces')" class="apple-btn-primary px-4 py-2 rounded-2xl text-xs font-semibold flex items-center gap-2 text-white">
+            <i class="ph-bold ph-sparkle"></i> Ir al Motor de Cruces
+          </button>
+          <button onclick="switchView('directorio')" class="apple-btn-secondary px-4 py-2 rounded-2xl text-xs font-semibold flex items-center gap-2 text-slate-200">
+            <i class="ph-bold ph-magnifying-glass"></i> Explorar Productores (<span class="dash-total-producers">0</span>)
+          </button>
+          <button onclick="switchView('registro')" class="apple-btn-secondary px-4 py-2 rounded-2xl text-xs font-semibold flex items-center gap-2 text-slate-200">
+            <i class="ph-bold ph-cards"></i> Registrar Productor Ficha a Ficha
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Widgets Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Productores</span>
+            <div class="w-8 h-8 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-users"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-producers">0</div>
+          <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Familias campesinas titulares
+          </p>
+        </div>
+
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Beneficiarios</span>
+            <div class="w-8 h-8 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-heart"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-beneficiaries">0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Impacto en núcleos familiares</p>
+        </div>
+
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Área Censada</span>
+            <div class="w-8 h-8 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-compass"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white font-mono" id="kpi-hectares">0 <span class="text-xs font-normal text-slate-400">Ha</span></div>
+          <p class="text-[11px] text-slate-400 mt-1" id="kpi-trees">0 matas estimadas</p>
+        </div>
+
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Población Especial</span>
+            <div class="w-8 h-8 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-shield-check"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-vulnerable">0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Víctimas & comunidades étnicas</p>
+        </div>
+
+      </div>
+
+      <!-- Live Opportunity Highlight & Territorial Breakdown -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        
+        <!-- Cruce Sugerido Directo -->
+        <div class="lg:col-span-2 liquid-glass rounded-3xl p-5 sm:p-6 border border-white/15 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                <i class="ph-bold ph-trend-up"></i> Cruce Recomendado para Proyectos
+              </span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 font-semibold">
+                Listo para formulación
+              </span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Transición de Café Tradicional a Cacao Tecnificado</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              El censo detecta que más del 65% de los productores que hoy tienen café en las veredas <strong class="text-white">El Mirador y El Sinaí</strong> manifestaron disponibilidad de hectáreas para sembrar cacao fino y de aroma con riego.
+            </p>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-4 text-xs font-mono">
+              <div>
+                <span class="block text-[10px] text-slate-400 uppercase">Potencial</span>
+                <span class="font-bold text-sky-400 text-sm" id="dash-potencial-ha">14.5 Ha</span>
+              </div>
+              <div class="border-l border-white/10 pl-4">
+                <span class="block text-[10px] text-slate-400 uppercase">Beneficiarios</span>
+                <span class="font-bold text-emerald-400 text-sm" id="dash-potencial-ben">33 personas</span>
+              </div>
+            </div>
+
+            <button onclick="launchPresetCruce('Café', 'Cacao')" class="apple-btn-primary px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 self-start sm:self-auto">
+              <span>Abrir en Motor de Cruces</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mini Territorial Summary -->
+        <div class="liquid-glass rounded-3xl p-5 border border-white/15 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+              <i class="ph-fill ph-map-pin text-rose-400"></i> Densidad Veredal
+            </h4>
+            <button onclick="switchView('territorio')" class="text-[11px] text-sky-400 hover:underline">Ver todas</button>
+          </div>
+
+          <div class="space-y-2.5 text-xs" id="dash-veredas-list">
+            <!-- Rendered in JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 2: MOTOR DE CRUCES PARA FORMULACIÓN DE PROYECTOS                   -->
+    <!-- ======================================================================= -->
+    <div id="view-cruces" class="app-view hidden space-y-6">
+      
+      <!-- Engine Header -->
+      <div class="liquid-glass rounded-3xl p-6 border border-white/15 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/20 text-sky-300 text-xs font-semibold mb-1">
+              <i class="ph-bold ph-funnel"></i> Cruces Inteligentes
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white">Motor de Cruce Agropecuario</h2>
+            <p class="text-xs text-slate-300 mt-1">
+              Filtra en segundos qué campesinos tienen un cultivo hoy, cuáles quieren otro en el proyecto y en qué veredas están.
+            </p>
+          </div>
+
+          <button onclick="resetFilters()" class="self-start sm:self-center apple-btn-secondary px-3.5 py-2 rounded-2xl text-xs text-slate-300 flex items-center gap-1.5">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i> Reiniciar Filtros
+          </button>
+        </div>
+
+        <!-- 4 Core Filter Selectors -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs pt-1">
+          
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-coffee text-amber-400"></i> ¿Qué TIENEN hoy?
+            </label>
+            <select id="filter-current" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Cualquier cultivo actual</option>
+              <option value="Café">Café</option>
+              <option value="Cacao">Cacao</option>
+              <option value="Caña">Caña Panelera</option>
+              <option value="Plátano">Plátano</option>
+              <option value="Aguacate">Aguacate</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-plant text-emerald-400"></i> ¿Qué QUIEREN sembrar?
+            </label>
+            <select id="filter-target" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Cualquier deseo futuro</option>
+              <option value="Cacao">Cacao (Línea Cacaotera)</option>
+              <option value="Café Especial">Café Especial / Variedades</option>
+              <option value="Aguacate Hass">Aguacate Hass</option>
+              <option value="Silvopastoril">Sistemas Silvopastoriles</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-map-pin text-rose-400"></i> Vereda / Sector
+            </label>
+            <select id="filter-vereda" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Todas las veredas</option>
+              <option value="El Mirador">El Mirador</option>
+              <option value="La Belleza">La Belleza</option>
+              <option value="El Mango">El Mango</option>
+              <option value="El Sinaí">El Sinaí</option>
+              <option value="El Plateado Centro">El Plateado Centro</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-shield-check text-sky-400"></i> Enfoque Poblacional
+            </label>
+            <select id="filter-social" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Todos los grupos</option>
+              <option value="VICTIMA">Víctimas de Conflicto</option>
+              <option value="CAMPESINO">Campesinos Tradicionales</option>
+              <option value="INDIGENA">Indígenas</option>
+              <option value="LGBTI">Comunidad LGBTI+</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Live Dynamic Project Result Card -->
+      <div class="liquid-glass rounded-3xl p-6 border border-sky-500/30 bg-gradient-to-br from-sky-950/40 via-slate-950/70 to-blue-950/40 space-y-4">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base sm:text-lg font-bold text-white" id="cruce-headline">Cruce Activo</span>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-mono font-bold" id="cruce-badge">0 fincas</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-0.5" id="cruce-description">
+              Resultados calculados en tiempo real según los parámetros seleccionados.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 self-start md:self-auto">
+            <button onclick="copyProjectSummary()" class="apple-btn-primary px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center gap-2">
+              <i class="ph-bold ph-copy"></i>
+              <span>Copiar Propuesta Formateada</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Real-time Impact KPI Counters -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Familias Titulares</span>
+            <span class="text-xl sm:text-2xl font-black text-white font-mono" id="cruce-familias">0</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Beneficiarios Indirectos</span>
+            <span class="text-xl sm:text-2xl font-black text-sky-400 font-mono" id="cruce-beneficiarios">0</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Tierra para el Proyecto</span>
+            <span class="text-xl sm:text-2xl font-black text-emerald-400 font-mono" id="cruce-hectareas">0 Ha</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Población Prioritaria</span>
+            <span class="text-xl sm:text-2xl font-black text-amber-300 font-mono" id="cruce-vulnerables">0</span>
+          </div>
+        </div>
+
+        <!-- Matched Producers mini-cards -->
+        <div class="space-y-2 pt-2">
+          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Productores que cumplen este perfil:</h4>
+          <div id="cruce-producers-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 3: PADRÓN Y DIRECTORIO DE PRODUCTORES                              -->
+    <!-- ======================================================================= -->
+    <div id="view-directorio" class="app-view hidden space-y-6">
+
+      <!-- Directory Header & Search Bar -->
+      <div class="liquid-glass rounded-3xl p-6 border border-white/15 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/20 text-sky-300 text-xs font-semibold mb-1">
+              <i class="ph-bold ph-users-three"></i> Base de Datos Unificada
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white">Directorio del Padrón Censal</h2>
+            <p class="text-xs text-slate-400">
+              Total de campesinos registrados. Haz clic en cualquiera para abrir su expediente individual.
+            </p>
+          </div>
+
+          <!-- Live Search Bar -->
+          <div class="relative w-full sm:w-80">
+            <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input 
+              type="text" 
+              id="dir-search-input" 
+              oninput="handleDirectorySearch(this.value)" 
+              placeholder="Buscar por campesino, cédula o predio..." 
+              class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 pl-10 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400"
+            />
+          </div>
+        </div>
+
+        <!-- Quick filter chips inside Directory -->
+        <div class="flex flex-wrap gap-2 pt-2 border-t border-white/10 text-xs">
+          <button onclick="filterDirectoryByChip('ALL', this)" class="chip-toggle active px-3 py-1.5 rounded-full font-medium">Todos</button>
+          <button onclick="filterDirectoryByChip('Café', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">☕ Cultivan Café</button>
+          <button onclick="filterDirectoryByChip('Cacao', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">🍫 Quieren Cacao</button>
+          <button onclick="filterDirectoryByChip('Víctima', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">🛡️ Víctimas</button>
+          <button onclick="filterDirectoryByChip('El Mirador', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">📍 El Mirador</button>
+          <button onclick="filterDirectoryByChip('La Belleza', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">📍 La Belleza</button>
+        </div>
+      </div>
+
+      <!-- Producers Grid -->
+      <div id="dir-producers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Rendered in JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="dir-empty-state" class="hidden liquid-glass-card rounded-3xl p-10 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-slate-800 text-slate-400 mx-auto flex items-center justify-center text-xl">
+          <i class="ph-bold ph-magnifying-glass"></i>
+        </div>
+        <h4 class="text-sm font-semibold text-white">No se encontraron productores</h4>
+        <p class="text-xs text-slate-400 max-w-sm mx-auto">Prueba ajustando la búsqueda o el filtro rápido de arriba.</p>
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 4: REGISTRO FICHA POR FICHA (ASISTENTE LIMPIO)                     -->
+    <!-- ======================================================================= -->
+    <div id="view-registro" class="app-view hidden space-y-6">
+
+      <div class="max-w-xl mx-auto liquid-glass rounded-3xl overflow-hidden border border-white/20 shadow-apple-glass">
+        
+        <!-- Wizard Top Bar -->
+        <div class="px-6 py-5 border-b border-white/10 bg-white/[0.02] flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-black text-sm" id="wiz-card-number">
+              1
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-white" id="wiz-card-title">Ficha 1: Identificación Personal</h3>
+              <p class="text-[10px] text-slate-400">Progreso paso a paso del censo</p>
+            </div>
+          </div>
+
+          <button onclick="switchView('dashboard')" class="text-xs text-slate-400 hover:text-white transition">
+            Cancelar
+          </button>
+        </div>
+
+        <!-- Apple Segmented Breadcrumb Dots -->
+        <div class="grid grid-cols-5 gap-1.5 px-6 pt-3">
+          <div id="wiz-dot-1" class="h-1.5 rounded-full bg-sky-400 transition-all duration-300"></div>
+          <div id="wiz-dot-2" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+          <div id="wiz-dot-3" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+          <div id="wiz-dot-4" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+          <div id="wiz-dot-5" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+        </div>
+
+        <!-- Progressive Form Cards Container -->
+        <div class="p-6 text-xs min-h-[380px]">
+
+          <!-- CARD 1: IDENTIFICACIÓN -->
+          <div id="card-step-1" class="space-y-4">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">Datos Básicos del Campesino</h4>
+              <p class="text-[11px] text-slate-400">Registra el nombre del titular y documento de identidad.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nombre Completo *</label>
+                <input type="text" id="wiz-nombre" placeholder="Ej: José Delio Valencia" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Cédula de Ciudadanía *</label>
+                  <input type="text" id="wiz-cedula" placeholder="Ej: 10.450.912" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Teléfono / WhatsApp</label>
+                  <input type="text" id="wiz-telefono" placeholder="Ej: 311 789 4521" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Edad del Productor</label>
+                <div class="flex items-center gap-3">
+                  <input type="range" id="wiz-edad-range" min="18" max="85" value="45" oninput="document.getElementById('wiz-edad-val').textContent = this.value + ' años'" class="w-full accent-sky-400">
+                  <span id="wiz-edad-val" class="font-mono text-sky-400 font-bold w-16 text-right">45 años</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: FAMILIA & ENFOQUE SOCIAL -->
+          <div id="card-step-2" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">Núcleo Familiar & Enfoque</h4>
+              <p class="text-[11px] text-slate-400">Para calcular los beneficiarios indirectos y puntaje social.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div class="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                <label class="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                  <span>¿Cuántas personas viven en la finca?</span>
+                  <span class="text-sky-400 font-bold font-mono text-base" id="wiz-familia-val">4 personas</span>
+                </label>
+                <div class="flex items-center justify-between gap-3 pt-1">
+                  <button type="button" onclick="adjustFamilyCount(-1)" class="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center font-bold text-sm">
+                    <i class="ph-bold ph-minus"></i>
+                  </button>
+                  <p class="text-[10px] text-slate-400 text-center">Titular + Esposa + Hijos en el predio</p>
+                  <button type="button" onclick="adjustFamilyCount(1)" class="w-10 h-10 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center font-bold text-sm">
+                    <i class="ph-bold ph-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-[11px] font-semibold text-slate-300">Población / Etnia:</label>
+                <div class="grid grid-cols-2 gap-2" id="etnia-chips">
+                  <button type="button" onclick="selectEtnia('Campesino', this)" class="chip-toggle active px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🌾 Campesino
+                  </button>
+                  <button type="button" onclick="selectEtnia('Indígena', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🏹 Indígena
+                  </button>
+                  <button type="button" onclick="selectEtnia('Afrodescendiente', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🥁 Afrodescendiente
+                  </button>
+                  <button type="button" onclick="selectEtnia('LGBTI', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🌈 LGBTI+
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold text-white block">¿Víctima del Conflicto Armado?</span>
+                  <span class="text-[10px] text-slate-400">Puntaje especial en convocatorias ADR</span>
+                </div>
+                <button type="button" id="wiz-btn-victima" onclick="toggleVictima()" class="w-12 h-6 rounded-full bg-sky-500 relative transition-colors duration-200">
+                  <span id="wiz-toggle-circle" class="block w-5 h-5 rounded-full bg-white shadow-md transform translate-x-6 transition-transform duration-200"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: FINCA & UBICACIÓN -->
+          <div id="card-step-3" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">Datos de la Finca y Territorio</h4>
+              <p class="text-[11px] text-slate-400">Ubicación veredal en el municipio de Argelia.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nombre de la Finca / Predio *</label>
+                <input type="text" id="wiz-finca" placeholder="Ej: Finca El Mirador" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-[11px] font-semibold text-slate-300">Selecciona la Vereda:</label>
+                <div class="grid grid-cols-2 gap-2" id="vereda-chips">
+                  <button type="button" onclick="selectVereda('El Mirador', this)" class="chip-toggle active px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Mirador
+                  </button>
+                  <button type="button" onclick="selectVereda('La Belleza', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 La Belleza
+                  </button>
+                  <button type="button" onclick="selectVereda('El Mango', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Mango
+                  </button>
+                  <button type="button" onclick="selectVereda('El Sinaí', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Sinaí
+                  </button>
+                  <button type="button" onclick="selectVereda('El Plateado Centro', this)" class="chip-toggle col-span-2 px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Plateado Centro
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Área Total (Hectáreas)</label>
+                  <input type="number" step="0.5" id="wiz-areatotal" value="5.0" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Altitud (m.s.n.m.)</label>
+                  <input type="number" id="wiz-altitud" value="1450" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 4: DIAGNÓSTICO ACTUAL -->
+          <div id="card-step-4" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">¿Qué Cultivo TIENE Sembrado Hoy?</h4>
+              <p class="text-[11px] text-slate-400">Diagnóstico de la producción actual en la finca.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div class="grid grid-cols-3 gap-2" id="cultivo-actual-chips">
+                <button type="button" onclick="selectCultivoActual('Café', this)" class="chip-toggle active p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">☕</span>
+                  <span class="font-semibold text-xs block">Café</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Cacao', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🍫</span>
+                  <span class="font-semibold text-xs block">Cacao</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Caña', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🎋</span>
+                  <span class="font-semibold text-xs block">Caña</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Plátano', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🍌</span>
+                  <span class="font-semibold text-xs block">Plátano</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Aguacate', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🥑</span>
+                  <span class="font-semibold text-xs block">Aguacate</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Otro', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🌱</span>
+                  <span class="font-semibold text-xs block">Otro</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Variedad Sembrada</label>
+                  <input type="text" id="wiz-variedad" value="Castillo Naranjal" placeholder="Ej: Castillo / CCN-51" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Área Sembrada (Ha)</label>
+                  <input type="number" step="0.5" id="wiz-hasembradas" value="3.0" oninput="recalcEstimatedTrees()" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-400/20 flex items-center justify-between text-xs">
+                <span class="text-slate-300">Estimación de plantas actuales:</span>
+                <span class="font-mono font-bold text-sky-300" id="wiz-trees-preview">15,000 árboles</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 5: PROYECCIÓN Y PROYECTO -->
+          <div id="card-step-5" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">¿Qué QUIERE Sembrar en el Proyecto?</h4>
+              <p class="text-[11px] text-slate-400">Interés real para estructuración del proyecto.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div class="grid grid-cols-2 gap-2" id="cultivo-deseado-chips">
+                <button type="button" onclick="selectCultivoDeseado('Cacao', this)" class="chip-toggle active p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">🍫 Cacao</span>
+                  <span class="text-[10px] text-slate-400">Línea Cacaotera</span>
+                </button>
+                <button type="button" onclick="selectCultivoDeseado('Café Especial', this)" class="chip-toggle p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">☕ Café Especial</span>
+                  <span class="text-[10px] text-slate-400">Variedades de Taza</span>
+                </button>
+                <button type="button" onclick="selectCultivoDeseado('Aguacate Hass', this)" class="chip-toggle p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">🥑 Aguacate Hass</span>
+                  <span class="text-[10px] text-slate-400">Exportación</span>
+                </button>
+                <button type="button" onclick="selectCultivoDeseado('Silvopastoril', this)" class="chip-toggle p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">🐄 Silvopastoril</span>
+                  <span class="text-[10px] text-slate-400">Ganadería Sostenible</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tierra Disponible (Ha)</label>
+                  <input type="number" step="0.5" id="wiz-hadisponibles" value="2.0" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">¿Requiere Riego?</label>
+                  <select id="wiz-riego" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400">
+                    <option value="Sí">Sí requiere</option>
+                    <option value="No">No requiere</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs flex items-center gap-2">
+                <i class="ph-bold ph-check-circle text-base text-emerald-400"></i>
+                <span>Ficha lista para ser guardada en la base de datos oficial.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Wizard Navigation Footer -->
+        <div class="p-5 border-t border-white/10 bg-white/[0.02] flex items-center justify-between">
+          <button type="button" id="wiz-btn-prev" onclick="wizardPrev()" class="apple-btn-secondary px-5 py-2.5 rounded-full text-xs text-slate-300 hidden flex items-center gap-1.5">
+            <i class="ph-bold ph-arrow-left"></i> Ficha Anterior
+          </button>
+
+          <div class="ml-auto flex items-center gap-2">
+            <button type="button" id="wiz-btn-next" onclick="wizardNext()" class="apple-btn-primary px-6 py-2.5 rounded-full text-white text-xs font-semibold flex items-center gap-1.5">
+              <span>Siguiente Ficha</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </button>
+            
+            <button type="button" id="wiz-btn-finish" onclick="wizardFinish()" class="apple-btn-primary px-7 py-2.5 rounded-full text-white text-xs font-bold hidden flex items-center gap-2 shadow-apple-glow">
+              <i class="ph-bold ph-floppy-disk text-sm"></i>
+              <span>Guardar en Base de Datos</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 5: CARTOGRAFÍA Y DESGLOSE POR VEREDAS                              -->
+    <!-- ======================================================================= -->
+    <div id="view-territorio" class="app-view hidden space-y-6">
+
+      <div class="liquid-glass rounded-3xl p-6 border border-white/15 space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/25 text-emerald-300 text-xs font-semibold">
+          <i class="ph-bold ph-compass"></i> Desglose Territorial
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black text-white">Veredas de El Plateado & Argelia</h2>
+        <p class="text-xs text-slate-400">
+          Supervisión territorial del censo. Haz clic en "Formular Proyecto" en cualquier vereda para abrir sus cruces directamente.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="territorio-cards-grid">
+        <!-- Rendered in JS -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- MODAL: EXPEDIENTE TÉCNICO DEL PRODUCTOR (APPLE GLASS SHEET)            -->
+  <!-- ======================================================================= -->
+  <div id="detail-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-2xl hidden items-center justify-center p-3 sm:p-4">
+    <div class="liquid-glass w-full max-w-xl rounded-3xl overflow-hidden border border-white/20 shadow-apple-glass relative flex flex-col max-h-[90vh]">
+      
+      <!-- Header Sheet -->
+      <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-sky-400 to-blue-600 text-white flex items-center justify-center font-black text-base shadow-apple-glow" id="detail-avatar">
+            J
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white" id="detail-name">Nombre Productor</h3>
+            <p class="text-[11px] text-slate-400" id="detail-cedula">C.C. 00.000.000</p>
+          </div>
+        </div>
+        <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 flex items-center justify-center text-xs transition">
+          <i class="ph-bold ph-x text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Scrollable Sheet Content -->
+      <div class="p-6 space-y-4 overflow-y-auto flex-1 text-xs">
+        
+        <!-- Social Info -->
+        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+          <span class="text-[10px] uppercase font-bold tracking-wider text-sky-400 block">Núcleo Familiar & Enfoque Social</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-white/5">
+              <span class="text-slate-400 text-[10px] block">Edad</span>
+              <span class="font-bold text-white text-xs" id="detail-edad">0</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-white/5">
+              <span class="text-slate-400 text-[10px] block">Enfoque</span>
+              <span class="font-bold text-white text-xs" id="detail-etnia">-</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-white/5">
+              <span class="text-slate-400 text-[10px] block">Víctima</span>
+              <span class="font-bold text-amber-300 text-xs" id="detail-victima">-</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-white/5">
+              <span class="text-slate-400 text-[10px] block">Familia</span>
+              <span class="font-bold text-sky-400 text-xs" id="detail-familia">0 pers.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Finca Location -->
+        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">Predio Agropecuario</span>
+              <span class="text-sm font-bold text-white" id="detail-finca">Finca</span>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-400/30 text-xs font-semibold" id="detail-vereda">
+              Vereda
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/5 text-center">
+            <div>
+              <span class="text-slate-400 text-[10px] block">Área Total</span>
+              <span class="font-bold text-white font-mono" id="detail-areatotal">0 Ha</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[10px] block">Altitud</span>
+              <span class="font-bold text-white font-mono" id="detail-altitud">0 msnm</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[10px] block">Teléfono</span>
+              <span class="font-bold text-slate-300 font-mono" id="detail-telefono">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cultivo Actual vs Proyección -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-400/20 space-y-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Cultivo Sembrado Hoy</span>
+            <div class="text-sm font-bold text-white" id="detail-cultivoactual">Café</div>
+            <p class="text-[11px] text-slate-300" id="detail-variedad">Variedad</p>
+            <p class="text-xs font-mono font-bold text-amber-300 pt-1" id="detail-hectareasactual">0 Ha sembradas</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-400/20 space-y-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400 block">Deseo para Proyecto</span>
+            <div class="text-sm font-bold text-white" id="detail-cultivodeseado">Cacao</div>
+            <p class="text-[11px] text-slate-300" id="detail-riego">Riego: Sí</p>
+            <p class="text-xs font-mono font-bold text-sky-300 pt-1" id="detail-areadesea">0 Ha proyectadas</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-white/10 bg-white/[0.02] flex justify-end">
+        <button onclick="closeDetailModal()" class="apple-btn-secondary px-6 py-2.5 rounded-full text-xs text-white">
+          Cerrar Expediente
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="liquid-glass px-5 py-3.5 rounded-2xl border border-white/20 shadow-apple-glass flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base font-bold">
+        <i class="ph-bold ph-check"></i>
+      </div>
+      <div>
+        <p id="toast-title" class="text-xs font-bold text-white">Completado</p>
+        <p id="toast-msg" class="text-[11px] text-slate-300">Acción realizada correctamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mock dataset modeled directly after El Plateado & Argelia Cauca producers
+    let producers = [
+      {
+        id: "prod-001",
+        nombre: "José Delio Valencia",
+        cedula: "10.450.912",
+        telefono: "311 789 4521",
+        edad: 48,
+        etnia: "Campesino",
+        es_victima: true,
+        familia_nucleo: 4,
+        finca: "El Encanto",
+        vereda: "El Mirador",
+        area_total: 6.0,
+        altitud: 1520,
+        cultivo_actual: "Café",
+        variedad: "Castillo Naranjal",
+        hectareas_sembradas: 3.5,
+        arboles_estimados: 17500,
+        cultivo_deseado: "Cacao",
+        area_deseable: 2.0,
+        requiere_riego: "Sí"
+      },
+      {
+        id: "prod-002",
+        nombre: "María Rocío Samboní",
+        cedula: "34.567.890",
+        telefono: "313 554 1120",
+        edad: 39,
+        etnia: "Campesino",
+        es_victima: true,
+        familia_nucleo: 5,
+        finca: "Villa Nueva",
+        vereda: "El Mirador",
+        area_total: 4.5,
+        altitud: 1480,
+        cultivo_actual: "Café",
+        variedad: "Cenicafé 1",
+        hectareas_sembradas: 2.0,
+        arboles_estimados: 10000,
+        cultivo_deseado: "Cacao",
+        area_deseable: 1.5,
+        requiere_riego: "No"
+      },
+      {
+        id: "prod-003",
+        nombre: "Hernán Dario Quintero",
+        cedula: "10.892.115",
+        telefono: "320 891 0045",
+        edad: 52,
+        etnia: "Campesino",
+        es_victima: false,
+        familia_nucleo: 3,
+        finca: "La Cristalina",
+        vereda: "La Belleza",
+        area_total: 8.0,
+        altitud: 1350,
+        cultivo_actual: "Cacao",
+        variedad: "CCN-51",
+        hectareas_sembradas: 4.0,
+        arboles_estimados: 4400,
+        cultivo_deseado: "Cacao",
+        area_deseable: 3.0,
+        requiere_riego: "Sí"
+      },
+      {
+        id: "prod-004",
+        nombre: "Flor Elena Guetio",
+        cedula: "25.678.901",
+        telefono: "314 203 9988",
+        edad: 44,
+        etnia: "Indígena",
+        es_victima: true,
+        familia_nucleo: 6,
+        finca: "Los Pinos",
+        vereda: "El Mango",
+        area_total: 5.0,
+        altitud: 1600,
+        cultivo_actual: "Café",
+        variedad: "Colombia",
+        hectareas_sembradas: 2.5,
+        arboles_estimados: 12500,
+        cultivo_deseado: "Café Especial",
+        area_deseable: 2.0,
+        requiere_riego: "No"
+      },
+      {
+        id: "prod-005",
+        nombre: "Jair Alexander Bermúdez",
+        cedula: "106.789.234",
+        telefono: "312 900 1234",
+        edad: 29,
+        etnia: "Campesino",
+        es_victima: true,
+        familia_nucleo: 2,
+        finca: "San Jerónimo",
+        vereda: "El Sinaí",
+        area_total: 3.5,
+        altitud: 1420,
+        cultivo_actual: "Caña",
+        variedad: "Canal Point",
+        hectareas_sembradas: 2.0,
+        arboles_estimados: 0,
+        cultivo_deseado: "Cacao",
+        area_deseable: 1.5,
+        requiere_riego: "Sí"
+      },
+      {
+        id: "prod-006",
+        nombre: "Carlos Julio Palechor",
+        cedula: "10.334.889",
+        telefono: "315 677 3344",
+        edad: 61,
+        etnia: "Campesino",
+        es_victima: false,
+        familia_nucleo: 4,
+        finca: "El Arrayán",
+        vereda: "El Plateado Centro",
+        area_total: 10.0,
+        altitud: 1300,
+        cultivo_actual: "Café",
+        variedad: "Castillo",
+        hectareas_sembradas: 4.0,
+        arboles_estimados: 20000,
+        cultivo_deseado: "Cacao",
+        area_deseable: 3.0,
+        requiere_riego: "Sí"
+      },
+      {
+        id: "prod-007",
+        nombre: "Yolanda Martínez",
+        cedula: "34.908.112",
+        telefono: "311 445 7789",
+        edad: 36,
+        etnia: "Campesino",
+        es_victima: true,
+        familia_nucleo: 4,
+        finca: "Buena Vista",
+        vereda: "La Belleza",
+        area_total: 7.0,
+        altitud: 1410,
+        cultivo_actual: "Plátano",
+        variedad: "Hartón",
+        hectareas_sembradas: 3.0,
+        arboles_estimados: 3500,
+        cultivo_deseado: "Aguacate Hass",
+        area_deseable: 2.0,
+        requiere_riego: "No"
+      },
+      {
+        id: "prod-008",
+        nombre: "Rigoberto Chocué",
+        cedula: "10.551.443",
+        telefono: "313 889 0012",
+        edad: 50,
+        etnia: "Indígena",
+        es_victima: true,
+        familia_nucleo: 5,
+        finca: "El Manantial",
+        vereda: "El Sinaí",
+        area_total: 6.0,
+        altitud: 1550,
+        cultivo_actual: "Café",
+        variedad: "Caturra",
+        hectareas_sembradas: 3.0,
+        arboles_estimados: 15000,
+        cultivo_deseado: "Cacao",
+        area_deseable: 2.0,
+        requiere_riego: "Sí"
+      }
+    ];
+
+    let currentView = 'dashboard';
+    let filteredCruceProducers = [];
+    let directorySearchQuery = '';
+    let directoryChipFilter = 'ALL';
+
+    // Wizard State
+    let currentWizardStep = 1;
+    const totalWizardSteps = 5;
+    let wizardData = {
+      nombre: '',
+      cedula: '',
+      telefono: '',
+      edad: 45,
+      familia_nucleo: 4,
+      etnia: 'Campesino',
+      es_victima: true,
+      finca: '',
+      vereda: 'El Mirador',
+      area_total: 5.0,
+      altitud: 1450,
+      cultivo_actual: 'Café',
+      variedad: 'Castillo Naranjal',
+      hectareas_sembradas: 3.0,
+      arboles_estimados: 15000,
+      cultivo_deseado: 'Cacao',
+      area_deseable: 2.0,
+      requiere_riego: 'Sí'
+    };
+
+    // Native Web Audio Synthesizer for Apple-like haptic clicks and alerts
+    let audioCtx = null;
+    function playHapticSound(type = 'click') {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(180, now + 0.04);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'success') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        } else if (type === 'pop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
+          gain.gain.setValueAtTime(0.05, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        }
+      } catch (e) {
+        // Silent fail on browsers that block autoplay
+      }
+    }
+
+    // Animated smooth counting with GSAP
+    function animateCounter(elementId, targetValue, suffix = '', decimals = 0) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const current = parseFloat(el.getAttribute('data-val') || '0');
+      const obj = { val: current };
+      
+      gsap.to(obj, {
+        val: targetValue,
+        duration: 0.75,
+        ease: 'power2.out',
+        onUpdate: () => {
+          el.setAttribute('data-val', obj.val);
+          if (decimals > 0) {
+            el.innerHTML = `${obj.val.toFixed(decimals)} ${suffix}`;
+          } else {
+            el.innerHTML = `${Math.round(obj.val).toLocaleString()} ${suffix}`;
+          }
+        }
+      });
+    }
+
+    function rebind3DTilt() {
+      if (typeof VanillaTilt !== 'undefined') {
+        const cards = document.querySelectorAll('.liquid-glass-card:not([data-tilt-attached])');
+        cards.forEach(card => {
+          card.setAttribute('data-tilt-attached', 'true');
+          VanillaTilt.init(card, {
+            max: 6,
+            speed: 400,
+            glare: true,
+            'max-glare': 0.15,
+            scale: 1.015,
+            perspective: 1000
+          });
+        });
+      }
+    }
+
+    // ==========================================
+    // VIEW SWITCHER (Tabs & Fluid Dock with GSAP)
+    // ==========================================
+    function switchView(viewId) {
+      playHapticSound('click');
+      currentView = viewId;
+
+      // Hide all views and animate incoming view
+      const views = ['dashboard', 'cruces', 'directorio', 'registro', 'territorio'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) {
+          if (v === viewId) {
+            el.classList.remove('hidden');
+            // GSAP fluid entrance animation
+            if (typeof gsap !== 'undefined') {
+              gsap.fromTo(el, 
+                { opacity: 0, y: 16, scale: 0.985 }, 
+                { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: 'power2.out' }
+              );
+            }
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+
+        // Adaptive Dock button active state & bounce animation
+        const dockBtn = document.getElementById(`dock-btn-${v}`);
+        if (dockBtn) {
+          const icon = dockBtn.querySelector('i');
+          if (v === viewId) {
+            dockBtn.classList.add('active', 'bouncing');
+            dockBtn.classList.remove('text-slate-400');
+            dockBtn.classList.add('text-white');
+            if (icon && !dockBtn.classList.contains('dock-center-action')) {
+              icon.classList.add('text-sky-400');
+            }
+            setTimeout(() => dockBtn.classList.remove('bouncing'), 450);
+          } else {
+            dockBtn.classList.remove('active', 'bouncing');
+            dockBtn.classList.remove('text-white');
+            dockBtn.classList.add('text-slate-400');
+            if (icon && !dockBtn.classList.contains('dock-center-action')) {
+              icon.classList.remove('text-sky-400');
+            }
+          }
+        }
+      });
+
+      // Special action upon entering view
+      if (viewId === 'dashboard') {
+        updateDashboardKPIs();
+        renderDashboardVeredas();
+      } else if (viewId === 'cruces') {
+        runFilterEngine();
+      } else if (viewId === 'directorio') {
+        renderDirectory();
+      } else if (viewId === 'registro') {
+        currentWizardStep = 1;
+        updateWizardUI();
+      } else if (viewId === 'territorio') {
+        renderTerritorioView();
+      }
+
+      setTimeout(rebind3DTilt, 100);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // DASHBOARD LOGIC WITH ANIMATED NUMBER TICKERS
+    // ==========================================
+    function updateDashboardKPIs() {
+      const totalProducers = producers.length;
+      const totalBeneficiaries = producers.reduce((acc, p) => acc + (Number(p.familia_nucleo) || 1), 0);
+      const totalHectares = producers.reduce((acc, p) => acc + (Number(p.area_total) || 0), 0);
+      const totalTrees = producers.reduce((acc, p) => acc + (Number(p.arboles_estimados) || 0), 0);
+      const vulnerableCount = producers.filter(p => p.es_victima || p.etnia !== 'Campesino').length;
+
+      animateCounter('kpi-producers', totalProducers);
+      animateCounter('kpi-beneficiaries', totalBeneficiaries);
+      animateCounter('kpi-hectares', totalHectares, '<span class="text-xs font-normal text-slate-400">Ha</span>', 1);
+      
+      const kpiTreesEl = document.getElementById('kpi-trees');
+      if (kpiTreesEl) kpiTreesEl.textContent = `${totalTrees.toLocaleString()} matas estimadas`;
+      
+      const kpiVulEl = document.getElementById('kpi-vulnerable');
+      if (kpiVulEl) kpiVulEl.textContent = `${vulnerableCount} (${Math.round((vulnerableCount/totalProducers)*100)}%)`;
+
+      // Update classes with `.dash-total-producers`
+      document.querySelectorAll('.dash-total-producers').forEach(el => el.textContent = totalProducers);
+
+      // Cruce sugerido calculations (Café -> Cacao)
+      const cafeToCacao = producers.filter(p => p.cultivo_actual === 'Café' && p.cultivo_deseado.includes('Cacao'));
+      const potHa = cafeToCacao.reduce((acc, p) => acc + Number(p.area_deseable), 0);
+      const potBen = cafeToCacao.reduce((acc, p) => acc + Number(p.familia_nucleo), 0);
+      document.getElementById('dash-potencial-ha').textContent = `${potHa.toFixed(1)} Ha`;
+      document.getElementById('dash-potencial-ben').textContent = `${potBen} personas`;
+    }
+
+    function renderDashboardVeredas() {
+      const container = document.getElementById('dash-veredas-list');
+      const veredas = ['El Mirador', 'La Belleza', 'El Sinaí', 'El Mango', 'El Plateado Centro'];
+
+      container.innerHTML = '';
+      veredas.forEach(v => {
+        const count = producers.filter(p => p.vereda === v).length;
+        const totalHa = producers.filter(p => p.vereda === v).reduce((a, b) => a + Number(b.area_total), 0);
+
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-2.5 rounded-2xl bg-white/[0.03] border border-white/5";
+        item.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+            <span class="text-slate-200 font-medium">${v}</span>
+          </div>
+          <div class="flex items-center gap-2 font-mono text-[11px]">
+            <span class="text-sky-300 font-bold">${count} fincas</span>
+            <span class="text-slate-500">|</span>
+            <span class="text-slate-400">${totalHa.toFixed(1)} Ha</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function launchPresetCruce(current, target) {
+      switchView('cruces');
+      document.getElementById('filter-current').value = current;
+      document.getElementById('filter-target').value = target;
+      document.getElementById('filter-vereda').value = 'ALL';
+      runFilterEngine();
+    }
+
+    // ==========================================
+    // MOTOR DE CRUCES LOGIC
+    // ==========================================
+    function runFilterEngine() {
+      const currentCultivo = document.getElementById('filter-current').value;
+      const targetCultivo = document.getElementById('filter-target').value;
+      const vereda = document.getElementById('filter-vereda').value;
+      const social = document.getElementById('filter-social').value;
+
+      filteredCruceProducers = producers.filter(p => {
+        const matchCurrent = (currentCultivo === 'ALL') || (p.cultivo_actual.toLowerCase() === currentCultivo.toLowerCase());
+        const matchTarget = (targetCultivo === 'ALL') || (p.cultivo_deseado.toLowerCase().includes(targetCultivo.toLowerCase()));
+        const matchVereda = (vereda === 'ALL') || (p.vereda.toLowerCase() === vereda.toLowerCase());
+        
+        let matchSocial = true;
+        if (social === 'VICTIMA') matchSocial = p.es_victima;
+        if (social === 'CAMPESINO') matchSocial = p.etnia.toLowerCase() === 'campesino';
+        if (social === 'INDIGENA') matchSocial = p.etnia.toLowerCase() === 'indígena';
+        if (social === 'LGBTI') matchSocial = p.etnia.toLowerCase() === 'lgbti';
+
+        return matchCurrent && matchTarget && matchVereda && matchSocial;
+      });
+
+      // Update counters
+      const count = filteredCruceProducers.length;
+      const beneficiaries = filteredCruceProducers.reduce((acc, p) => acc + Number(p.familia_nucleo), 0);
+      const targetHectares = filteredCruceProducers.reduce((acc, p) => acc + Number(p.area_deseable), 0);
+      const vulnerables = filteredCruceProducers.filter(p => p.es_victima || p.etnia !== 'Campesino').length;
+
+      document.getElementById('cruce-badge').textContent = `${count} fincas`;
+      animateCounter('cruce-familias', count);
+      animateCounter('cruce-beneficiarios', beneficiaries);
+      animateCounter('cruce-hectares', targetHectares, 'Ha', 1);
+      animateCounter('cruce-vulnerables', vulnerables);
+
+      let curText = currentCultivo !== 'ALL' ? `con cultivo de ${currentCultivo}` : 'cualquier cultivo';
+      let tarText = targetCultivo !== 'ALL' ? `interesados en ${targetCultivo}` : 'cualquier proyecto';
+      let verText = vereda !== 'ALL' ? `en la vereda ${vereda}` : 'en todo el territorio';
+
+      document.getElementById('cruce-headline').textContent = `${count} Productores Listos`;
+      document.getElementById('cruce-description').textContent = 
+        `Campesinos ${curText} y ${tarText} ${verText}. Disponibilidad total de ${targetHectares.toFixed(1)} Ha para siembra.`;
+
+      // Render mini cards
+      const listContainer = document.getElementById('cruce-producers-list');
+      listContainer.innerHTML = '';
+
+      if (filteredCruceProducers.length === 0) {
+        listContainer.innerHTML = `<div class="col-span-3 text-center py-6 text-slate-400 text-xs">No hay productores con este cruce. Prueba modificando los filtros.</div>`;
+        return;
+      }
+
+      filteredCruceProducers.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "p-3 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between cursor-pointer hover:border-sky-400/40 transition";
+        card.onclick = () => openDetailModal(p.id);
+        card.innerHTML = `
+          <div>
+            <span class="font-bold text-white text-xs block">${p.nombre}</span>
+            <span class="text-[10px] text-slate-400">${p.vereda} • ${p.finca}</span>
+            <div class="flex items-center gap-1.5 mt-1 text-[10px]">
+              <span class="text-amber-300">${p.cultivo_actual}</span>
+              <span class="text-slate-500">→</span>
+              <span class="text-sky-300 font-semibold">${p.cultivo_deseado} (${p.area_deseable} Ha)</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-sky-400 font-mono font-bold text-xs">${p.familia_nucleo} pers.</span>
+            <span class="text-[9px] text-slate-500 block">familia</span>
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-current').value = 'ALL';
+      document.getElementById('filter-target').value = 'ALL';
+      document.getElementById('filter-vereda').value = 'ALL';
+      document.getElementById('filter-social').value = 'ALL';
+      runFilterEngine();
+      showToast('Filtros Reiniciados', 'Visualizando todo el universo censado.');
+    }
+
+    function copyProjectSummary() {
+      const currentCultivo = document.getElementById('filter-current').value;
+      const targetCultivo = document.getElementById('filter-target').value;
+      const vereda = document.getElementById('filter-vereda').value;
+      const totalFiltered = filteredCruceProducers.length;
+      const totalFam = filteredCruceProducers.reduce((acc, p) => acc + Number(p.familia_nucleo), 0);
+      const totalTargetHa = filteredCruceProducers.reduce((acc, p) => acc + Number(p.area_deseable), 0);
+
+      const copyText = `RESUMEN DE PROYECTO AGRO·COM (EL PLATEADO / ARGELIA)
+=====================================================
+Cultivo Actual en Finca: ${currentCultivo}
+Línea Solicitada para Proyecto: ${targetCultivo}
+Vereda / Territorio: ${vereda}
+-----------------------------------------------------
+• Familias Productoras Beneficiarias: ${totalFiltered} familias
+• Impacto Total (Beneficiarios Indirectos): ${totalFam} personas
+• Hectáreas Proyectadas para Siembra: ${totalTargetHa.toFixed(1)} Ha
+Generado al instante por el Sistema de Caracterización AGRO·COM.`;
+
+      const el = document.createElement("textarea");
+      el.value = copyText;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+
+      showToast('Proyecto Copiado', 'Texto formateado copiado al portapapeles para WhatsApp o Word.');
+    }
+
+    // ==========================================
+    // DIRECTORY VIEW LOGIC
+    // ==========================================
+    function handleDirectorySearch(query) {
+      directorySearchQuery = (query || '').toLowerCase().trim();
+      renderDirectory();
+    }
+
+    function filterDirectoryByChip(chip, btn) {
+      directoryChipFilter = chip;
+      document.querySelectorAll('#view-directorio .chip-toggle').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      renderDirectory();
+    }
+
+    function renderDirectory() {
+      const grid = document.getElementById('dir-producers-grid');
+      const emptyState = document.getElementById('dir-empty-state');
+
+      let list = producers.filter(p => {
+        let matchesQuery = true;
+        if (directorySearchQuery) {
+          matchesQuery = p.nombre.toLowerCase().includes(directorySearchQuery) ||
+                         p.cedula.includes(directorySearchQuery) ||
+                         p.finca.toLowerCase().includes(directorySearchQuery) ||
+                         p.vereda.toLowerCase().includes(directorySearchQuery);
+        }
+
+        let matchesChip = true;
+        if (directoryChipFilter === 'Café') matchesChip = p.cultivo_actual.toLowerCase() === 'café';
+        if (directoryChipFilter === 'Cacao') matchesChip = p.cultivo_deseado.toLowerCase().includes('cacao');
+        if (directoryChipFilter === 'Víctima') matchesChip = p.es_victima;
+        if (directoryChipFilter === 'El Mirador') matchesChip = p.vereda === 'El Mirador';
+        if (directoryChipFilter === 'La Belleza') matchesChip = p.vereda === 'La Belleza';
+
+        return matchesQuery && matchesChip;
+      });
+
+      grid.innerHTML = '';
+
+      if (list.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      list.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "liquid-glass-card rounded-3xl p-5 flex flex-col justify-between cursor-pointer group";
+        card.onclick = () => openDetailModal(p.id);
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-500/20 to-blue-600/30 border border-sky-400/30 text-sky-300 flex items-center justify-center font-black text-sm shadow-inner group-hover:scale-105 transition">
+                  ${p.nombre.charAt(0)}
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-sm group-hover:text-sky-300 transition">${p.nombre}</h4>
+                  <p class="text-[10px] text-slate-400">C.C. ${p.cedula} • ${p.vereda}</p>
+                </div>
+              </div>
+              ${p.es_victima ? `<span class="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">Víctima</span>` : ''}
+            </div>
+
+            <div class="p-3 rounded-2xl bg-black/35 border border-white/5 space-y-1.5 mb-3 text-[11px]">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Predio:</span>
+                <span class="text-slate-200 font-medium">${p.finca} (${p.area_total} Ha)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Tiene hoy:</span>
+                <span class="text-amber-300 font-semibold">${p.cultivo_actual} (${p.hectareas_sembradas} Ha)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Interés:</span>
+                <span class="text-sky-300 font-semibold">${p.cultivo_deseado} (${p.area_deseable} Ha)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+            <span class="text-slate-400 flex items-center gap-1.5">
+              <i class="ph-fill ph-users text-indigo-400"></i> ${p.familia_nucleo} beneficiarios
+            </span>
+            <span class="text-sky-400 group-hover:translate-x-1 transition font-semibold text-[10px] flex items-center gap-1">
+              Ver Expediente <i class="ph-bold ph-caret-right"></i>
+            </span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Animate cards staggered entrance with GSAP
+      if (typeof gsap !== 'undefined') {
+        gsap.from("#dir-producers-grid .liquid-glass-card", {
+          opacity: 0,
+          y: 20,
+          stagger: 0.05,
+          duration: 0.35,
+          ease: 'power2.out'
+        });
+      }
+      setTimeout(rebind3DTilt, 50);
+    }
+
+    // ==========================================
+    // TERRITORIAL BREAKDOWN VIEW LOGIC
+    // ==========================================
+    function renderTerritorioView() {
+      const container = document.getElementById('territorio-cards-grid');
+      const veredas = [
+        { name: 'El Mirador', icon: 'ph-mountains', desc: 'Zona alta cafetera con transición a cacao fino' },
+        { name: 'La Belleza', icon: 'ph-tree', desc: 'Producción diversificada: cacao, café y plátano' },
+        { name: 'El Mango', icon: 'ph-sun-dim', desc: 'Tierras aptas para café especial de taza' },
+        { name: 'El Sinaí', icon: 'ph-drop', desc: 'Sistemas productivos con cuencas de agua' },
+        { name: 'El Plateado Centro', icon: 'ph-buildings', desc: 'Casco y fincas circundantes principales' }
+      ];
+
+      container.innerHTML = '';
+      veredas.forEach(v => {
+        const matching = producers.filter(p => p.vereda === v.name);
+        const count = matching.length;
+        const totalHa = matching.reduce((a, b) => a + Number(b.area_total), 0);
+        const totalBeneficiarios = matching.reduce((a, b) => a + Number(b.familia_nucleo), 0);
+
+        const card = document.createElement('div');
+        card.className = "liquid-glass-card rounded-3xl p-5 flex flex-col justify-between space-y-4";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="w-10 h-10 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg">
+                <i class="ph-fill ${v.icon}"></i>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-white font-mono text-xs font-bold">
+                ${count} fincas
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-white">${v.name}</h3>
+            <p class="text-[11px] text-slate-400 mt-0.5">${v.desc}</p>
+          </div>
+
+          <div class="p-3 rounded-2xl bg-black/40 border border-white/5 grid grid-cols-2 gap-2 text-center text-xs">
+            <div>
+              <span class="text-[10px] text-slate-400 block">Tierra Total</span>
+              <span class="font-bold text-white font-mono">${totalHa.toFixed(1)} Ha</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 block">Beneficiarios</span>
+              <span class="font-bold text-sky-400 font-mono">${totalBeneficiarios} pers.</span>
+            </div>
+          </div>
+
+          <button onclick="filterTerritorioInCruces('${v.name}')" class="apple-btn-primary w-full py-2.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-1.5">
+            <i class="ph-bold ph-funnel"></i>
+            <span>Formular Proyecto para ${v.name}</span>
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterTerritorioInCruces(veredaName) {
+      switchView('cruces');
+      document.getElementById('filter-vereda').value = veredaName;
+      runFilterEngine();
+    }
+
+    // ==========================================
+    // PROGRESSIVE FICHA-A-FICHA WIZARD LOGIC
+    // ==========================================
+    function updateWizardUI() {
+      const titles = [
+        "Ficha 1: Identificación Personal",
+        "Ficha 2: Familia & Enfoque Social",
+        "Ficha 3: Finca & Ubicación Veredal",
+        "Ficha 4: Diagnóstico de Cultivo Actual",
+        "Ficha 5: Proyección para Proyectos"
+      ];
+
+      document.getElementById('wiz-card-number').textContent = currentWizardStep;
+      document.getElementById('wiz-card-title').textContent = titles[currentWizardStep - 1];
+
+      for (let i = 1; i <= totalWizardSteps; i++) {
+        const card = document.getElementById(`card-step-${i}`);
+        const dot = document.getElementById(`wiz-dot-${i}`);
+
+        if (i === currentWizardStep) {
+          card.classList.remove('hidden');
+          dot.className = "h-1.5 rounded-full bg-sky-400 transition-all duration-300";
+        } else if (i < currentWizardStep) {
+          card.classList.add('hidden');
+          dot.className = "h-1.5 rounded-full bg-sky-600/60 transition-all duration-300";
+        } else {
+          card.classList.add('hidden');
+          dot.className = "h-1.5 rounded-full bg-white/15 transition-all duration-300";
+        }
+      }
+
+      const btnPrev = document.getElementById('wiz-btn-prev');
+      const btnNext = document.getElementById('wiz-btn-next');
+      const btnFinish = document.getElementById('wiz-btn-finish');
+
+      if (currentWizardStep === 1) btnPrev.classList.add('hidden');
+      else btnPrev.classList.remove('hidden');
+
+      if (currentWizardStep === totalWizardSteps) {
+        btnNext.classList.add('hidden');
+        btnFinish.classList.remove('hidden');
+      } else {
+        btnNext.classList.remove('hidden');
+        btnFinish.classList.add('hidden');
+      }
+    }
+
+    function wizardNext() {
+      playHapticSound('click');
+      if (currentWizardStep === 1) {
+        const nom = document.getElementById('wiz-nombre').value.trim();
+        const ced = document.getElementById('wiz-cedula').value.trim();
+        if (!nom || !ced) {
+          showToast('Campo requerido', 'Ingresa nombre y cédula para avanzar.');
+          return;
+        }
+        wizardData.nombre = nom;
+        wizardData.cedula = ced;
+        wizardData.telefono = document.getElementById('wiz-telefono').value.trim() || 'Sin teléfono';
+        wizardData.edad = Number(document.getElementById('wiz-edad-range').value) || 45;
+      }
+
+      if (currentWizardStep === 3) {
+        const finca = document.getElementById('wiz-finca').value.trim();
+        wizardData.finca = finca || 'Finca Sin Nombre';
+        wizardData.area_total = Number(document.getElementById('wiz-areatotal').value) || 4.0;
+        wizardData.altitud = Number(document.getElementById('wiz-altitud').value) || 1400;
+      }
+
+      if (currentWizardStep < totalWizardSteps) {
+        currentWizardStep++;
+        updateWizardUI();
+      }
+    }
+
+    function wizardPrev() {
+      playHapticSound('click');
+      if (currentWizardStep > 1) {
+        currentWizardStep--;
+        updateWizardUI();
+      }
+    }
+
+    async function wizardFinish() {
+      wizardData.variedad = document.getElementById('wiz-variedad').value.trim() || 'Castillo';
+      wizardData.hectareas_sembradas = Number(document.getElementById('wiz-hasembradas').value) || 2.0;
+      wizardData.arboles_estimados = wizardData.hectareas_sembradas * 5000;
+      wizardData.area_deseable = Number(document.getElementById('wiz-hadisponibles').value) || 1.5;
+      wizardData.requiere_riego = document.getElementById('wiz-riego').value;
+      const newEntry = { id: "prod-" + Date.now(), ...wizardData };
+      if (!supabaseClient) { showToast('Conexión no lista', 'Espera un momento e inténtalo de nuevo.'); return; }
+      const { data, error } = await supabaseClient.from('producers').insert(newEntry).select().single();
+      if (error) {
+        console.error('Supabase insert error:', error);
+        showToast('No se pudo guardar', error.message || 'Revisa tu conexión y permisos.');
+        return;
+      }
+      producers.unshift(data || newEntry);
+      document.getElementById('wiz-nombre').value = '';
+      document.getElementById('wiz-cedula').value = '';
+      document.getElementById('wiz-telefono').value = '';
+      document.getElementById('wiz-finca').value = '';
+      playHapticSound('success');
+      if (typeof confetti !== 'undefined') confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 }, colors: ['#38bdf8', '#0A84FF', '#30D158', '#ffffff'] });
+      showToast('¡Ficha Guardada con Éxito!', `${newEntry.nombre} fue sincronizado con Supabase.`);
+      switchView('directorio');
+      updateDashboardKPIs();
+    }
+
+    function adjustFamilyCount(delta) {
+      wizardData.familia_nucleo = Math.max(1, wizardData.familia_nucleo + delta);
+      document.getElementById('wiz-familia-val').textContent = `${wizardData.familia_nucleo} personas`;
+    }
+
+    function selectEtnia(val, btn) {
+      wizardData.etnia = val;
+      document.querySelectorAll('#etnia-chips .chip-toggle').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function toggleVictima() {
+      wizardData.es_victima = !wizardData.es_victima;
+      const btn = document.getElementById('wiz-btn-victima');
+      const circle = document.getElementById('wiz-toggle-circle');
+
+      if (wizardData.es_victima) {
+        btn.className = "w-12 h-6 rounded-full bg-sky-500 relative transition-colors duration-200";
+        circle.className = "block w-5 h-5 rounded-full bg-white shadow-md transform translate-x-6 transition-transform duration-200";
+      } else {
+        btn.className = "w-12 h-6 rounded-full bg-white/20 relative transition-colors duration-200";
+        circle.className = "block w-5 h-5 rounded-full bg-white shadow-md transform translate-x-1 transition-transform duration-200";
+      }
+    }
+
+    function selectVereda(val, btn) {
+      wizardData.vereda = val;
+      document.querySelectorAll('#vereda-chips .chip-toggle').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function selectCultivoActual(val, btn) {
+      wizardData.cultivo_actual = val;
+      document.querySelectorAll('#cultivo-actual-chips .chip-toggle').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function selectCultivoDeseado(val, btn) {
+      wizardData.cultivo_deseado = val;
+      document.querySelectorAll('#cultivo-deseado-chips .chip-toggle').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function recalcEstimatedTrees() {
+      const ha = Number(document.getElementById('wiz-hasembradas').value) || 0;
+      const trees = Math.round(ha * 5000);
+      document.getElementById('wiz-trees-preview').textContent = `${trees.toLocaleString()} plantas`;
+    }
+
+    // ==========================================
+    // PRODUCER DETAIL MODAL
+    // ==========================================
+    function openDetailModal(id) {
+      const p = producers.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('detail-avatar').textContent = p.nombre.charAt(0);
+      document.getElementById('detail-name').textContent = p.nombre;
+      document.getElementById('detail-cedula').textContent = `C.C. ${p.cedula}`;
+      document.getElementById('detail-edad').textContent = `${p.edad} años`;
+      document.getElementById('detail-etnia').textContent = p.etnia;
+      document.getElementById('detail-victima').textContent = p.es_victima ? 'Sí' : 'No';
+      document.getElementById('detail-familia').textContent = `${p.familia_nucleo} pers.`;
+
+      document.getElementById('detail-finca').textContent = p.finca;
+      document.getElementById('detail-vereda').textContent = `Vereda ${p.vereda}`;
+      document.getElementById('detail-areatotal').textContent = `${p.area_total} Ha`;
+      document.getElementById('detail-altitud').textContent = `${p.altitud} msnm`;
+      document.getElementById('detail-telefono').textContent = p.telefono || 'Sin tel';
+
+      document.getElementById('detail-cultivoactual').textContent = p.cultivo_actual;
+      document.getElementById('detail-variedad').textContent = `Variedad: ${p.variedad}`;
+      document.getElementById('detail-hectareasactual').textContent = `${p.hectareas_sembradas} Ha sembradas (${p.arboles_estimados ? p.arboles_estimados.toLocaleString() + ' matas' : 'N/A'})`;
+
+      document.getElementById('detail-cultivodeseado').textContent = p.cultivo_deseado;
+      document.getElementById('detail-riego').textContent = `Riego: ${p.requiere_riego}`;
+      document.getElementById('detail-areadesea').textContent = `${p.area_deseable} Ha proyectadas`;
+
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('detail-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // ==========================================
+    // TOAST SYSTEM
+    // ==========================================
+    // PRODUCER DETAIL MODAL WITH GSAP POP
+    // ==========================================
+    function openDetailModal(id) {
+      playHapticSound('pop');
+      const p = producers.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('detail-avatar').textContent = p.nombre.charAt(0);
+      document.getElementById('detail-name').textContent = p.nombre;
+      document.getElementById('detail-cedula').textContent = `C.C. ${p.cedula}`;
+      document.getElementById('detail-edad').textContent = `${p.edad} años`;
+      document.getElementById('detail-etnia').textContent = p.etnia;
+      document.getElementById('detail-victima').textContent = p.es_victima ? 'Sí' : 'No';
+      document.getElementById('detail-familia').textContent = `${p.familia_nucleo} pers.`;
+
+      document.getElementById('detail-finca').textContent = p.finca;
+      document.getElementById('detail-vereda').textContent = `Vereda ${p.vereda}`;
+      document.getElementById('detail-areatotal').textContent = `${p.area_total} Ha`;
+      document.getElementById('detail-altitud').textContent = `${p.altitud} msnm`;
+      document.getElementById('detail-telefono').textContent = p.telefono || 'Sin tel';
+
+      document.getElementById('detail-cultivoactual').textContent = p.cultivo_actual;
+      document.getElementById('detail-variedad').textContent = `Variedad: ${p.variedad}`;
+      document.getElementById('detail-hectareasactual').textContent = `${p.hectareas_sembradas} Ha sembradas (${p.arboles_estimados ? p.arboles_estimados.toLocaleString() + ' matas' : 'N/A'})`;
+
+      document.getElementById('detail-cultivodeseado').textContent = p.cultivo_deseado;
+      document.getElementById('detail-riego').textContent = `Riego: ${p.requiere_riego}`;
+      document.getElementById('detail-areadesea').textContent = `${p.area_deseable} Ha proyectadas`;
+
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // Apple Sheet pop transition
+      const modalInner = modal.querySelector('.liquid-glass');
+      if (typeof gsap !== 'undefined' && modalInner) {
+        gsap.fromTo(modalInner, 
+          { scale: 0.9, opacity: 0, y: 30 },
+          { scale: 1, opacity: 1, y: 0, duration: 0.35, ease: 'back.out(1.4)' }
+        );
+      }
+    }
+
+    function closeDetailModal() {
+      playHapticSound('click');
+      const modal = document.getElementById('detail-modal');
+      const modalInner = modal.querySelector('.liquid-glass');
+      if (typeof gsap !== 'undefined' && modalInner) {
+        gsap.to(modalInner, {
+          scale: 0.92,
+          opacity: 0,
+          y: 20,
+          duration: 0.2,
+          ease: 'power2.in',
+          onComplete: () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+          }
+        });
+      } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function handleBackdropClick(event) {
+      if (event.target.id === 'detail-modal') {
+        closeDetailModal();
+      }
+    }
+
+    // Export dataset to CSV / Excel
+    function exportToCSV() {
+      playHapticSound('success');
+      const headers = ["ID", "Nombre", "Cédula", "Teléfono", "Edad", "Etnia", "Víctima", "Núcleo Familiar", "Finca", "Vereda", "Área Total (Ha)", "Altitud (msnm)", "Cultivo Actual", "Variedad", "Ha Sembradas", "Plantas Estimadas", "Cultivo Deseado", "Ha Deseables", "Requiere Riego"];
+      
+      const rows = producers.map(p => [
+        `"${p.id}"`,
+        `"${p.nombre}"`,
+        `"${p.cedula}"`,
+        `"${p.telefono || ''}"`,
+        p.edad,
+        `"${p.etnia}"`,
+        p.es_victima ? "Sí" : "No",
+        p.familia_nucleo,
+        `"${p.finca}"`,
+        `"${p.vereda}"`,
+        p.area_total,
+        p.altitud,
+        `"${p.cultivo_actual}"`,
+        `"${p.variedad}"`,
+        p.hectareas_sembradas,
+        p.arboles_estimados,
+        `"${p.cultivo_deseado}"`,
+        p.area_deseable,
+        `"${p.requiere_riego}"`
+      ]);
+
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(r => r.join(","))].join("\r\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `censo_agrocom_el_plateado_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showToast("Padrón Exportado", "Archivo CSV generado compatible con Microsoft Excel y Google Sheets.");
+    }
+
+    function printProducerDossier() {
+      window.print();
+    }
+
+    // Keyboard navigation (ESC closes modal)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('detail-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+          closeDetailModal();
+        }
+      }
+    });
+
+    // ==========================================
+    // TOAST SYSTEM
+    // ==========================================
+    function showToast(title, msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-msg').textContent = msg;
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    // Initialize application on load
+    window.onload = function() {
+      switchView('dashboard');
+      setTimeout(rebind3DTilt, 200);
+      setupKeyboardShortcuts();
+      renderCropDistributionBars();
+      renderLiveActivityFeed();
+    };
+
+    // ==========================================
+    // CROP DISTRIBUTION & LIVE FIELD AUDIT
+    // ==========================================
+    function renderCropDistributionBars() {
+      const container = document.getElementById('dash-crop-distribution-bars');
+      if (!container) return;
+
+      const crops = ['Café', 'Cacao', 'Caña', 'Plátano', 'Aguacate'];
+      const total = producers.length || 1;
+      
+      const colors = {
+        'Café': { bar: 'bg-gradient-to-r from-amber-600 to-amber-400', badge: 'text-amber-400', icon: '☕' },
+        'Cacao': { bar: 'bg-gradient-to-r from-sky-600 to-sky-400', badge: 'text-sky-400', icon: '🍫' },
+        'Caña': { bar: 'bg-gradient-to-r from-emerald-600 to-emerald-400', badge: 'text-emerald-400', icon: '🎋' },
+        'Plátano': { bar: 'bg-gradient-to-r from-yellow-500 to-yellow-300', badge: 'text-yellow-300', icon: '🍌' },
+        'Aguacate': { bar: 'bg-gradient-to-r from-teal-500 to-teal-300', badge: 'text-teal-300', icon: '🥑' }
+      };
+
+      container.innerHTML = '';
+      crops.forEach(crop => {
+        const count = producers.filter(p => p.cultivo_actual.toLowerCase() === crop.toLowerCase()).length;
+        const pct = Math.round((count / total) * 100);
+        const ha = producers.filter(p => p.cultivo_actual.toLowerCase() === crop.toLowerCase()).reduce((a, b) => a + Number(b.hectareas_sembradas), 0);
+
+        const row = document.createElement('div');
+        row.className = "space-y-1 cursor-pointer hover:bg-white/[0.02] p-2 rounded-xl transition";
+        row.onclick = () => launchPresetCruce(crop, 'ALL');
+        row.innerHTML = `
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-slate-200 font-semibold flex items-center gap-1.5">
+              <span>${colors[crop].icon}</span>
+              <span>${crop}</span>
+              <span class="text-slate-500 font-mono text-[10px]">(${count} fincas)</span>
+            </span>
+            <span class="font-mono font-bold ${colors[crop].badge}">${pct}% <span class="text-slate-400 text-[10px] font-normal">• ${ha.toFixed(1)} Ha</span></span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+            <div class="h-full rounded-full ${colors[crop].bar} dist-bar-fill" style="width: ${pct}%"></div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function renderLiveActivityFeed() {
+      const container = document.getElementById('dash-activity-feed');
+      if (!container) return;
+
+      const activities = [
+        { title: "Nueva finca censada", detail: "Finca Villa Nueva (El Mirador)", time: "Hace 12 min", icon: "ph-plus-circle", color: "text-emerald-400" },
+        { title: "Cruce formulado", detail: "Café a Cacao (22 Ha solicitadas)", time: "Hace 45 min", icon: "ph-git-fork", color: "text-sky-400" },
+        { title: "Sincronización veredal", detail: "4 fichas recibidas de La Belleza", time: "Hace 2 horas", icon: "ph-cloud-arrow-down", color: "text-indigo-400" }
+      ];
+
+      container.innerHTML = '';
+      activities.forEach(act => {
+        const item = document.createElement('div');
+        item.className = "flex items-start gap-2.5 p-2 rounded-xl bg-white/[0.02] border border-white/5";
+        item.innerHTML = `
+          <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center ${act.color} text-sm flex-shrink-0">
+            <i class="ph-bold ${act.icon}"></i>
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between items-center">
+              <span class="font-semibold text-white text-[11px]">${act.title}</span>
+              <span class="text-[9px] text-slate-500 font-mono">${act.time}</span>
+            </div>
+            <p class="text-[10px] text-slate-400">${act.detail}</p>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // ==========================================
+    // SPOTLIGHT COMMAND PALETTE (⌘K)
+    // ==========================================
+    function setupKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          openSpotlightModal();
+        }
+      });
+    }
+
+    function openSpotlightModal() {
+      playHapticSound('pop');
+      const modal = document.getElementById('spotlight-modal');
+      const input = document.getElementById('spotlight-input');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      input.value = '';
+      input.focus();
+      runSpotlightSearch('');
+    }
+
+    function closeSpotlightModal() {
+      const modal = document.getElementById('spotlight-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleSpotlightBackdrop(e) {
+      if (e.target.id === 'spotlight-modal') closeSpotlightModal();
+    }
+
+    function runSpotlightSearch(q) {
+      const resultsContainer = document.getElementById('spotlight-results');
+      const query = (q || '').toLowerCase().trim();
+
+      const matched = producers.filter(p => {
+        if (!query) return true;
+        return p.nombre.toLowerCase().includes(query) ||
+               p.cedula.includes(query) ||
+               p.vereda.toLowerCase().includes(query) ||
+               p.cultivo_actual.toLowerCase().includes(query) ||
+               p.cultivo_deseado.toLowerCase().includes(query);
+      }).slice(0, 6);
+
+      resultsContainer.innerHTML = '';
+      if (matched.length === 0) {
+        resultsContainer.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Sin coincidencias para "${query}".</div>`;
+        return;
+      }
+
+      matched.forEach(p => {
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition text-xs";
+        item.onclick = () => {
+          closeSpotlightModal();
+          openDetailModal(p.id);
+        };
+        item.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center font-bold text-xs">
+              ${p.nombre.charAt(0)}
+            </div>
+            <div>
+              <span class="font-bold text-white block">${p.nombre}</span>
+              <span class="text-[10px] text-slate-400">${p.vereda} • ${p.cultivo_actual} → ${p.cultivo_deseado}</span>
+            </div>
+          </div>
+          <span class="text-[10px] font-mono text-sky-400">${p.area_deseable} Ha</span>
+        `;
+        resultsContainer.appendChild(item);
+      });
+    }
+
+    // ==========================================
+    // OFFLINE / ONLINE SIMULATOR
+    // ==========================================
+    let isOnlineMode = true;
+    function toggleFieldConnection() {
+      playHapticSound('click');
+      isOnlineMode = !isOnlineMode;
+      const dot = document.getElementById('conn-dot');
+      const text = document.getElementById('conn-text');
+      const badge = document.getElementById('header-conn-badge');
+
+      if (isOnlineMode) {
+        dot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+        text.textContent = "En Línea";
+        badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-semibold";
+        showToast("Conexión Restablecida", "Sincronización activa con la base central.");
+      } else {
+        dot.className = "w-2 h-2 rounded-full bg-amber-400";
+        text.textContent = "Modo Campo Offline";
+        badge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/20 text-amber-300 text-xs font-semibold";
+        showToast("Modo Offline Activado", "Los datos se guardan en la memoria local del dispositivo sin gastar datos.");
+      }
+    }
+
+    // ==========================================
+    // OFFICIAL PROJECT PITCH DOSSIER (ADR / ALCALDÍA)
+    // ==========================================
+    function openProjectPitchModal() {
+      playHapticSound('pop');
+      const modal = document.getElementById('pitch-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // Populate with current stats
+      const totalFam = producers.length;
+      const totalBen = producers.reduce((a, b) => a + Number(b.familia_nucleo), 0);
+      const totalHa = producers.reduce((a, b) => a + Number(b.area_deseable), 0);
+      // Rough investment model: ~15 million COP per hectare tecnified
+      const budgetM = Math.round(totalHa * 14.5);
+
+      document.getElementById('pitch-date').textContent = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('pitch-familias').textContent = totalFam;
+      document.getElementById('pitch-personas').textContent = `${totalBen} pers.`;
+      document.getElementById('pitch-hectareas').textContent = `${totalHa.toFixed(1)} Ha`;
+      document.getElementById('pitch-presupuesto').textContent = `$${budgetM}M COP`;
+
+      document.getElementById('pitch-justificacion').textContent = 
+        `Proyecto estratégico de reconversión y tecnificación agropecuaria para el campesinado de El Plateado y veredas aledañas. Beneficia de manera prioritaria a ${totalFam} familias titulares (${totalBen} personas en núcleos directos), de las cuales el 75% ostentan condición de víctimas del conflicto armado y comunidades étnicas organizadas.`;
+
+      // Fill preview table
+      const tbody = document.getElementById('pitch-producers-table');
+      tbody.innerHTML = '';
+      producers.slice(0, 5).forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-2.5 font-semibold text-white">${p.nombre}</td>
+          <td class="p-2.5">${p.vereda}</td>
+          <td class="p-2.5 text-amber-300">${p.cultivo_actual}</td>
+          <td class="p-2.5 text-sky-300">${p.cultivo_deseado}</td>
+          <td class="p-2.5 text-right font-mono font-bold">${p.area_deseable} Ha</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function closeProjectPitchModal() {
+      const modal = document.getElementById('pitch-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyPitchSummaryText() {
+      const fam = document.getElementById('pitch-familias').textContent;
+      const per = document.getElementById('pitch-personas').textContent;
+      const ha = document.getElementById('pitch-hectareas').textContent;
+      const inv = document.getElementById('pitch-presupuesto').textContent;
+
+      const txt = `FICHA DE PERFIL DE PROYECTO AGRO·COM
+Territorio: El Plateado, Argelia (Cauca)
+-----------------------------------------------
+• Familias Titulares: ${fam}
+• Impacto Núcleo Familiar: ${per}
+• Hectáreas a Intervenir: ${ha}
+• Presupuesto Estimado de Inversión: ${inv}
+• Enfoque: Transición a Cacao y Café Especial con Riego Tecnificado.`;
+
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+
+      showToast("Texto Copiado", "Ficha técnica copiada al portapapeles.");
+    }
+
+    function printPitchDossier() {
+      window.print();
+    }
+  // ========================================================================
+  // SUPABASE DATA + AUTH INTEGRATION
+  // ========================================================================
+  let supabaseClient = null;
+  let authMode = 'login';
+  let currentUser = null;
+
+  function setAuthStatus(message, type = 'info') {
+    const el = document.getElementById('auth-status');
+    if (!el) return;
+    el.textContent = message || '';
+    el.className = 'text-[11px] text-center min-h-5 mt-2 ' + (type === 'error' ? 'text-rose-300' : type === 'success' ? 'text-emerald-300' : 'text-slate-400');
+  }
+  function toggleAuthMode() {
+    authMode = authMode === 'login' ? 'signup' : 'login';
+    document.getElementById('auth-submit-text').textContent = authMode === 'login' ? 'Iniciar sesión' : 'Crear cuenta';
+    document.getElementById('auth-toggle').textContent = authMode === 'login' ? '¿No tienes cuenta? Crear cuenta' : '¿Ya tienes cuenta? Iniciar sesión';
+    document.getElementById('auth-password').setAttribute('autocomplete', authMode === 'login' ? 'current-password' : 'new-password');
+    setAuthStatus('');
+  }
+  async function handleAuthSubmit(event) {
+    event.preventDefault();
+    if (!supabaseClient) { setAuthStatus('Conexión todavía iniciando…', 'error'); return; }
+    const email = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value;
+    const button = document.getElementById('auth-submit');
+    button.disabled = true; button.classList.add('opacity-60'); setAuthStatus('Conectando con Supabase…');
+    try {
+      const result = authMode === 'login'
+        ? await supabaseClient.auth.signInWithPassword({ email, password })
+        : await supabaseClient.auth.signUp({ email, password });
+      if (result.error) throw result.error;
+      if (authMode === 'signup' && !result.data.session) {
+        setAuthStatus('Cuenta creada. Revisa tu correo para confirmar el acceso y luego inicia sesión.', 'success');
+        return;
+      }
+      if (result.data.session) await enterApp(result.data.user);
+    } catch (error) {
+      console.error('Supabase Auth error:', error);
+      setAuthStatus(error.message || 'No fue posible autenticarte.', 'error');
+    } finally { button.disabled = false; button.classList.remove('opacity-60'); }
+  }
+  async function enterApp(user) {
+    currentUser = user || (await supabaseClient.auth.getUser()).data.user;
+    document.body.classList.remove('auth-locked');
+    document.getElementById('auth-gate').style.display = 'none';
+    await loadProducersFromSupabase();
+    updateDashboardKPIs(); renderDashboardVeredas();
+  }
+  async function loadProducersFromSupabase() {
+    const { data, error } = await supabaseClient.from('producers').select('*').order('created_at', { ascending: false });
+    if (error) {
+      console.error('Supabase select error:', error);
+      showToast('Error de sincronización', error.message || 'No se pudieron cargar los productores.');
+      producers = []; return false;
+    }
+    producers = Array.isArray(data) ? data : [];
+    showToast('Base sincronizada', `${producers.length} productores cargados desde Supabase.`);
+    return true;
+  }
+  async function signOutAgro() {
+    if (supabaseClient) await supabaseClient.auth.signOut();
+    currentUser = null; producers = [];
+    document.body.classList.add('auth-locked');
+    document.getElementById('auth-gate').style.display = 'flex';
+    setAuthStatus('Sesión cerrada.');
+  }
+
+  async function bootstrapSupabase() {
+    try {
+      const response = await fetch('/api/config', { cache: 'no-store' });
+      if (!response.ok) throw new Error('No se pudo obtener la configuración de Supabase.');
+      const config = await response.json();
+      if (!config.url || !config.publishableKey) throw new Error('Faltan variables de configuración de Supabase en Vercel.');
+      supabaseClient = window.supabase.createClient(config.url, config.publishableKey);
+      supabaseClient.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user && !currentUser) await enterApp(session.user);
+        if (event === 'SIGNED_OUT') {
+          currentUser = null; producers = [];
+          document.body.classList.add('auth-locked');
+          const gate = document.getElementById('auth-gate'); if (gate) gate.style.display = 'flex';
+        }
+      });
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session?.user) await enterApp(session.user);
+      else { document.body.classList.add('auth-locked'); document.getElementById('auth-gate').style.display = 'flex'; setAuthStatus('Listo. Inicia sesión o crea tu cuenta.'); }
+    } catch (error) {
+      console.error('Supabase bootstrap error:', error);
+      setAuthStatus(error.message || 'No se pudo iniciar la conexión con Supabase.', 'error');
+    }
+  }
+  bootstrapSupabase();
+
+</script>
+</body>
+</html>
