@@ -1,108 +1,1000 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=) QD sane ale
-®@ olmer111 (olmer111)
-A Pubtioprofite Applications
-® Account Installed GitHub Apps $2. Authorized GitHub Aops
-2 mm wet nda
-4 Acoessbity
-
-1D Notiicatons
-
-e-
-
-3 ating and tcensing g (4 Google Al sudo
-
-S emais
-© Password and authentication 47 Supabece
-(0) Sessions
-
-B ssrona crc keys a Weal
-© Crecente
-
-Bh orgnicatons
-
-© Emerprises
-B Moderation ©
-Repositories
-
-& codespaces
-
-© Pockages
-
-& coplot =
-5 Poses
-
-© Saved replies
-
-© Code securty
-| 88 Applications
-
-© ‘Schedules reminders
-
-@ Seoutty og
-
-Sponsorship log
-
-> Developer settings
-
-A Authorized OAuth Apps
-
-Configure
-
-Configure
-
-Configure
-
-Configure
-
-
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGRO·COM - Caracterización & Liquid Censo</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- GSAP CDN for smooth spring physics and page transitions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Vanilla-Tilt for 3D Apple Vision/Liquid Glass tilt & glare -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <!-- Canvas Confetti for celebratory registration feedback -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"Space Grotesk"', 'monospace']
+          },
+          colors: {
+            ios: {
+              bg: '#040714',
+              surface: 'rgba(15, 23, 42, 0.55)',
+              border: 'rgba(255, 255, 255, 0.12)',
+              blue: '#0A84FF',
+              cyan: '#30D158',
+              accent: '#38BDF8',
+              card: 'rgba(23, 37, 65, 0.35)',
+              chip: 'rgba(255, 255, 255, 0.06)'
+            }
+          },
+          boxShadow: {
+            'apple-glass': '0 25px 60px -15px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.25)',
+            'apple-glow': '0 0 35px -5px rgba(10, 132, 255, 0.45)',
+            'apple-emerald': '0 0 35px -5px rgba(48, 209, 88, 0.35)',
+            'apple-card': '0 12px 35px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    
+    body {
+      background-color: #030612;
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(10, 132, 255, 0.22) 0px, transparent 50%),
+        radial-gradient(at 90% 15%, rgba(56, 189, 248, 0.18) 0px, transparent 55%),
+        radial-gradient(at 50% 85%, rgba(48, 209, 88, 0.12) 0px, transparent 65%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Apple Liquid Glass Container */
+    .liquid-glass {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 100%);
+      backdrop-filter: blur(32px) saturate(200%);
+      -webkit-backdrop-filter: blur(32px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    }
+
+    .liquid-glass-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.015) 100%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0.5px rgba(255, 255, 255, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .liquid-glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 45px -10px rgba(10, 132, 255, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    }
+
+    /* 3D Glass Glare reflection container */
+    .tilt-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* Apple Pill Buttons */
+    .apple-btn-primary {
+      background: linear-gradient(180deg, #2fa3ff 0%, #0071e3 100%);
+      box-shadow: 0 6px 20px rgba(0, 113, 227, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .apple-btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 26px rgba(0, 113, 227, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    }
+    .apple-btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .apple-btn-secondary {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      transition: all 0.2s ease;
+    }
+    .apple-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    /* Tab Pill Active State */
+    .nav-tab-btn {
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      color: #94a3b8;
+    }
+    .nav-tab-btn.active {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Interactive Chip Button */
+    .chip-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .chip-toggle.active {
+      background: linear-gradient(135deg, rgba(10, 132, 255, 0.32) 0%, rgba(56, 189, 248, 0.22) 100%);
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    /* Apple Spring & Bounce Micro-Animations */
+    @keyframes appleBounce {
+      0% { transform: scale(1); }
+      30% { transform: scale(0.85); }
+      65% { transform: scale(1.12); }
+      85% { transform: scale(0.97); }
+      100% { transform: scale(1); }
+    }
+
+    .dock-btn {
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .dock-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .dock-btn:active {
+      transform: scale(0.92);
+    }
+
+    .dock-btn.bouncing {
+      animation: appleBounce 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .dock-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+    }
+
+    /* Center Action Pulse Glow */
+    .dock-center-action {
+      background: linear-gradient(180deg, #38bdf8 0%, #0071e3 100%);
+      box-shadow: 0 8px 24px rgba(0, 113, 227, 0.55), inset 0 1px 1.5px rgba(255, 255, 255, 0.6);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dock-center-action:hover {
+      transform: translateY(-3px) scale(1.08);
+      box-shadow: 0 12px 30px rgba(0, 113, 227, 0.75), inset 0 1px 1.5px rgba(255, 255, 255, 0.8);
+    }
+
+    .dock-center-action:active {
+      transform: scale(0.94);
+    }
+
+    /* View transition animation */
+    .app-view {
+      animation: fadeInView 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeInView {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom Glass Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen antialiased selection:bg-ios-blue selection:text-white pb-24 md:pb-12">
+
+  <!-- Floating Liquid Apple Header -->
+  <header class="sticky top-3 z-40 max-w-6xl w-[95%] mx-auto mt-2">
+    <div class="liquid-glass rounded-3xl sm:rounded-full px-4 sm:px-6 py-3 flex items-center justify-between border border-white/15 gap-3">
+      
+      <!-- Brand & Location -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('dashboard')">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-500 via-blue-600 to-indigo-500 flex items-center justify-center shadow-apple-glow text-white">
+          <i class="ph-fill ph-plant text-xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold tracking-tight text-base sm:text-lg bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-sky-300">
+              AGRO<span class="text-sky-400">·COM</span>
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 font-semibold tracking-wide">
+              Sistema Censo
+            </span>
+          </div>
+          <p class="text-[10px] text-slate-400 -mt-0.5">El Plateado • Argelia, Cauca</p>
+        </div>
+      </div>
+
+      <!-- Quick Status Indicators (Header Right) -->
+      <div class="flex items-center gap-2.5">
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Base Local Sincronizada</span>
+        </div>
+        <button onclick="switchView('registro')" class="apple-btn-primary px-4 sm:px-5 py-2 rounded-full text-white text-xs sm:text-sm font-semibold flex items-center gap-2 cursor-pointer shadow-apple-glow">
+          <i class="ph-bold ph-plus-circle text-base"></i>
+          <span>Censar</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Fluid Adaptive Bottom Floating Dock (PC & Mobile Distributed) -->
+  <div class="fixed bottom-3 sm:bottom-6 left-0 right-0 z-40 flex justify-center px-3 sm:px-6 pointer-events-none">
+    <div class="pointer-events-auto liquid-glass rounded-full px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between w-full max-w-sm sm:max-w-xl md:max-w-2xl border border-white/20 shadow-apple-glass gap-1 sm:gap-2">
+      
+      <!-- Tab 1: Dashboard -->
+      <button onclick="switchView('dashboard')" id="dock-btn-dashboard" class="dock-btn active flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-fill ph-squares-four text-base sm:text-lg text-sky-400"></i>
+        <span>Tablero</span>
+      </button>
+
+      <!-- Tab 2: Cruces -->
+      <button onclick="switchView('cruces')" id="dock-btn-cruces" class="dock-btn flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-bold ph-git-fork text-base sm:text-lg"></i>
+        <span>Cruces</span>
+      </button>
+
+      <!-- Center Action: Nueva Ficha -->
+      <button onclick="switchView('registro')" id="dock-btn-registro" class="dock-center-action w-11 h-11 sm:w-12 sm:h-12 -mt-4 sm:-mt-5 rounded-full flex items-center justify-center text-white flex-shrink-0 cursor-pointer" title="Registrar Productor Ficha a Ficha">
+        <i class="ph-bold ph-plus text-xl transition-transform duration-300"></i>
+      </button>
+
+      <!-- Tab 4: Padrón -->
+      <button onclick="switchView('directorio')" id="dock-btn-directorio" class="dock-btn flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-bold ph-address-book text-base sm:text-lg"></i>
+        <span>Padrón</span>
+      </button>
+
+      <!-- Tab 5: Veredas -->
+      <button onclick="switchView('territorio')" id="dock-btn-territorio" class="dock-btn flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-full flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-[10px] sm:text-xs font-semibold text-slate-400">
+        <i class="ph-bold ph-map-trifold text-base sm:text-lg"></i>
+        <span>Veredas</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 1: TABLERO EJECUTIVO (DASHBOARD)                                    -->
+    <!-- ======================================================================= -->
+    <div id="view-dashboard" class="app-view space-y-6">
+
+      <!-- Hero Welcome Banner -->
+      <div class="liquid-glass rounded-3xl p-6 sm:p-8 border border-white/15 relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-60 h-60 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-2xl space-y-2 relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-400/10 border border-sky-400/25 text-sky-300 text-xs font-semibold">
+            <i class="ph-fill ph-check-circle"></i> Plataforma Oficial de Caracterización Campesina
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+            Censo Agropecuario & Cruce Estratégico de Proyectos
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-300">
+            Control de productores, predios georreferenciados y formulación inmediata de proyectos para el corregimiento de <strong class="text-white">El Plateado y veredas de Argelia</strong>.
+          </p>
+        </div>
+
+        <!-- Direct Action Bar inside Hero -->
+        <div class="mt-6 flex flex-wrap gap-2.5">
+          <button onclick="switchView('cruces')" class="apple-btn-primary px-4 py-2 rounded-2xl text-xs font-semibold flex items-center gap-2 text-white">
+            <i class="ph-bold ph-sparkle"></i> Ir al Motor de Cruces
+          </button>
+          <button onclick="switchView('directorio')" class="apple-btn-secondary px-4 py-2 rounded-2xl text-xs font-semibold flex items-center gap-2 text-slate-200">
+            <i class="ph-bold ph-magnifying-glass"></i> Explorar Productores (<span class="dash-total-producers">0</span>)
+          </button>
+          <button onclick="switchView('registro')" class="apple-btn-secondary px-4 py-2 rounded-2xl text-xs font-semibold flex items-center gap-2 text-slate-200">
+            <i class="ph-bold ph-cards"></i> Registrar Productor Ficha a Ficha
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Widgets Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Productores</span>
+            <div class="w-8 h-8 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-users"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-producers">0</div>
+          <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Familias campesinas titulares
+          </p>
+        </div>
+
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Beneficiarios</span>
+            <div class="w-8 h-8 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-heart"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-beneficiaries">0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Impacto en núcleos familiares</p>
+        </div>
+
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Área Censada</span>
+            <div class="w-8 h-8 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-compass"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white font-mono" id="kpi-hectares">0 <span class="text-xs font-normal text-slate-400">Ha</span></div>
+          <p class="text-[11px] text-slate-400 mt-1" id="kpi-trees">0 matas estimadas</p>
+        </div>
+
+        <div class="liquid-glass-card rounded-3xl p-5 relative overflow-hidden group">
+          <div class="flex items-center justify-between text-slate-400 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Población Especial</span>
+            <div class="w-8 h-8 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-base">
+              <i class="ph-fill ph-shield-check"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-vulnerable">0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Víctimas & comunidades étnicas</p>
+        </div>
+
+      </div>
+
+      <!-- Live Opportunity Highlight & Territorial Breakdown -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        
+        <!-- Cruce Sugerido Directo -->
+        <div class="lg:col-span-2 liquid-glass rounded-3xl p-5 sm:p-6 border border-white/15 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                <i class="ph-bold ph-trend-up"></i> Cruce Recomendado para Proyectos
+              </span>
+              <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 font-semibold">
+                Listo para formulación
+              </span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Transición de Café Tradicional a Cacao Tecnificado</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              El censo detecta que más del 65% de los productores que hoy tienen café en las veredas <strong class="text-white">El Mirador y El Sinaí</strong> manifestaron disponibilidad de hectáreas para sembrar cacao fino y de aroma con riego.
+            </p>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-4 text-xs font-mono">
+              <div>
+                <span class="block text-[10px] text-slate-400 uppercase">Potencial</span>
+                <span class="font-bold text-sky-400 text-sm" id="dash-potencial-ha">14.5 Ha</span>
+              </div>
+              <div class="border-l border-white/10 pl-4">
+                <span class="block text-[10px] text-slate-400 uppercase">Beneficiarios</span>
+                <span class="font-bold text-emerald-400 text-sm" id="dash-potencial-ben">33 personas</span>
+              </div>
+            </div>
+
+            <button onclick="launchPresetCruce('Café', 'Cacao')" class="apple-btn-primary px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 self-start sm:self-auto">
+              <span>Abrir en Motor de Cruces</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mini Territorial Summary -->
+        <div class="liquid-glass rounded-3xl p-5 border border-white/15 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+              <i class="ph-fill ph-map-pin text-rose-400"></i> Densidad Veredal
+            </h4>
+            <button onclick="switchView('territorio')" class="text-[11px] text-sky-400 hover:underline">Ver todas</button>
+          </div>
+
+          <div class="space-y-2.5 text-xs" id="dash-veredas-list">
+            <!-- Rendered in JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 2: MOTOR DE CRUCES PARA FORMULACIÓN DE PROYECTOS                   -->
+    <!-- ======================================================================= -->
+    <div id="view-cruces" class="app-view hidden space-y-6">
+      
+      <!-- Engine Header -->
+      <div class="liquid-glass rounded-3xl p-6 border border-white/15 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/20 text-sky-300 text-xs font-semibold mb-1">
+              <i class="ph-bold ph-funnel"></i> Cruces Inteligentes
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white">Motor de Cruce Agropecuario</h2>
+            <p class="text-xs text-slate-300 mt-1">
+              Filtra en segundos qué campesinos tienen un cultivo hoy, cuáles quieren otro en el proyecto y en qué veredas están.
+            </p>
+          </div>
+
+          <button onclick="resetFilters()" class="self-start sm:self-center apple-btn-secondary px-3.5 py-2 rounded-2xl text-xs text-slate-300 flex items-center gap-1.5">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i> Reiniciar Filtros
+          </button>
+        </div>
+
+        <!-- 4 Core Filter Selectors -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs pt-1">
+          
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-coffee text-amber-400"></i> ¿Qué TIENEN hoy?
+            </label>
+            <select id="filter-current" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Cualquier cultivo actual</option>
+              <option value="Café">Café</option>
+              <option value="Cacao">Cacao</option>
+              <option value="Caña">Caña Panelera</option>
+              <option value="Plátano">Plátano</option>
+              <option value="Aguacate">Aguacate</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-plant text-emerald-400"></i> ¿Qué QUIEREN sembrar?
+            </label>
+            <select id="filter-target" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Cualquier deseo futuro</option>
+              <option value="Cacao">Cacao (Línea Cacaotera)</option>
+              <option value="Café Especial">Café Especial / Variedades</option>
+              <option value="Aguacate Hass">Aguacate Hass</option>
+              <option value="Silvopastoril">Sistemas Silvopastoriles</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-map-pin text-rose-400"></i> Vereda / Sector
+            </label>
+            <select id="filter-vereda" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Todas las veredas</option>
+              <option value="El Mirador">El Mirador</option>
+              <option value="La Belleza">La Belleza</option>
+              <option value="El Mango">El Mango</option>
+              <option value="El Sinaí">El Sinaí</option>
+              <option value="El Plateado Centro">El Plateado Centro</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[11px] font-semibold text-slate-300 flex items-center gap-1">
+              <i class="ph-fill ph-shield-check text-sky-400"></i> Enfoque Poblacional
+            </label>
+            <select id="filter-social" onchange="runFilterEngine()" class="w-full bg-slate-900/90 border border-white/15 rounded-2xl px-3.5 py-3 text-white focus:outline-none focus:border-sky-400">
+              <option value="ALL">Todos los grupos</option>
+              <option value="VICTIMA">Víctimas de Conflicto</option>
+              <option value="CAMPESINO">Campesinos Tradicionales</option>
+              <option value="INDIGENA">Indígenas</option>
+              <option value="LGBTI">Comunidad LGBTI+</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Live Dynamic Project Result Card -->
+      <div class="liquid-glass rounded-3xl p-6 border border-sky-500/30 bg-gradient-to-br from-sky-950/40 via-slate-950/70 to-blue-950/40 space-y-4">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base sm:text-lg font-bold text-white" id="cruce-headline">Cruce Activo</span>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-mono font-bold" id="cruce-badge">0 fincas</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-0.5" id="cruce-description">
+              Resultados calculados en tiempo real según los parámetros seleccionados.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 self-start md:self-auto">
+            <button onclick="copyProjectSummary()" class="apple-btn-primary px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center gap-2">
+              <i class="ph-bold ph-copy"></i>
+              <span>Copiar Propuesta Formateada</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Real-time Impact KPI Counters -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Familias Titulares</span>
+            <span class="text-xl sm:text-2xl font-black text-white font-mono" id="cruce-familias">0</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Beneficiarios Indirectos</span>
+            <span class="text-xl sm:text-2xl font-black text-sky-400 font-mono" id="cruce-beneficiarios">0</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Tierra para el Proyecto</span>
+            <span class="text-xl sm:text-2xl font-black text-emerald-400 font-mono" id="cruce-hectareas">0 Ha</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-black/40 border border-white/5">
+            <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block">Población Prioritaria</span>
+            <span class="text-xl sm:text-2xl font-black text-amber-300 font-mono" id="cruce-vulnerables">0</span>
+          </div>
+        </div>
+
+        <!-- Matched Producers mini-cards -->
+        <div class="space-y-2 pt-2">
+          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Productores que cumplen este perfil:</h4>
+          <div id="cruce-producers-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 3: PADRÓN Y DIRECTORIO DE PRODUCTORES                              -->
+    <!-- ======================================================================= -->
+    <div id="view-directorio" class="app-view hidden space-y-6">
+
+      <!-- Directory Header & Search Bar -->
+      <div class="liquid-glass rounded-3xl p-6 border border-white/15 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/20 text-sky-300 text-xs font-semibold mb-1">
+              <i class="ph-bold ph-users-three"></i> Base de Datos Unificada
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white">Directorio del Padrón Censal</h2>
+            <p class="text-xs text-slate-400">
+              Total de campesinos registrados. Haz clic en cualquiera para abrir su expediente individual.
+            </p>
+          </div>
+
+          <!-- Live Search Bar -->
+          <div class="relative w-full sm:w-80">
+            <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input 
+              type="text" 
+              id="dir-search-input" 
+              oninput="handleDirectorySearch(this.value)" 
+              placeholder="Buscar por campesino, cédula o predio..." 
+              class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 pl-10 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400"
+            />
+          </div>
+        </div>
+
+        <!-- Quick filter chips inside Directory -->
+        <div class="flex flex-wrap gap-2 pt-2 border-t border-white/10 text-xs">
+          <button onclick="filterDirectoryByChip('ALL', this)" class="chip-toggle active px-3 py-1.5 rounded-full font-medium">Todos</button>
+          <button onclick="filterDirectoryByChip('Café', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">☕ Cultivan Café</button>
+          <button onclick="filterDirectoryByChip('Cacao', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">🍫 Quieren Cacao</button>
+          <button onclick="filterDirectoryByChip('Víctima', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">🛡️ Víctimas</button>
+          <button onclick="filterDirectoryByChip('El Mirador', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">📍 El Mirador</button>
+          <button onclick="filterDirectoryByChip('La Belleza', this)" class="chip-toggle px-3 py-1.5 rounded-full font-medium">📍 La Belleza</button>
+        </div>
+      </div>
+
+      <!-- Producers Grid -->
+      <div id="dir-producers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Rendered in JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="dir-empty-state" class="hidden liquid-glass-card rounded-3xl p-10 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-slate-800 text-slate-400 mx-auto flex items-center justify-center text-xl">
+          <i class="ph-bold ph-magnifying-glass"></i>
+        </div>
+        <h4 class="text-sm font-semibold text-white">No se encontraron productores</h4>
+        <p class="text-xs text-slate-400 max-w-sm mx-auto">Prueba ajustando la búsqueda o el filtro rápido de arriba.</p>
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 4: REGISTRO FICHA POR FICHA (ASISTENTE LIMPIO)                     -->
+    <!-- ======================================================================= -->
+    <div id="view-registro" class="app-view hidden space-y-6">
+
+      <div class="max-w-xl mx-auto liquid-glass rounded-3xl overflow-hidden border border-white/20 shadow-apple-glass">
+        
+        <!-- Wizard Top Bar -->
+        <div class="px-6 py-5 border-b border-white/10 bg-white/[0.02] flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-black text-sm" id="wiz-card-number">
+              1
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-white" id="wiz-card-title">Ficha 1: Identificación Personal</h3>
+              <p class="text-[10px] text-slate-400">Progreso paso a paso del censo</p>
+            </div>
+          </div>
+
+          <button onclick="switchView('dashboard')" class="text-xs text-slate-400 hover:text-white transition">
+            Cancelar
+          </button>
+        </div>
+
+        <!-- Apple Segmented Breadcrumb Dots -->
+        <div class="grid grid-cols-5 gap-1.5 px-6 pt-3">
+          <div id="wiz-dot-1" class="h-1.5 rounded-full bg-sky-400 transition-all duration-300"></div>
+          <div id="wiz-dot-2" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+          <div id="wiz-dot-3" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+          <div id="wiz-dot-4" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+          <div id="wiz-dot-5" class="h-1.5 rounded-full bg-white/15 transition-all duration-300"></div>
+        </div>
+
+        <!-- Progressive Form Cards Container -->
+        <div class="p-6 text-xs min-h-[380px]">
+
+          <!-- CARD 1: IDENTIFICACIÓN -->
+          <div id="card-step-1" class="space-y-4">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">Datos Básicos del Campesino</h4>
+              <p class="text-[11px] text-slate-400">Registra el nombre del titular y documento de identidad.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nombre Completo *</label>
+                <input type="text" id="wiz-nombre" placeholder="Ej: José Delio Valencia" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Cédula de Ciudadanía *</label>
+                  <input type="text" id="wiz-cedula" placeholder="Ej: 10.450.912" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Teléfono / WhatsApp</label>
+                  <input type="text" id="wiz-telefono" placeholder="Ej: 311 789 4521" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Edad del Productor</label>
+                <div class="flex items-center gap-3">
+                  <input type="range" id="wiz-edad-range" min="18" max="85" value="45" oninput="document.getElementById('wiz-edad-val').textContent = this.value + ' años'" class="w-full accent-sky-400">
+                  <span id="wiz-edad-val" class="font-mono text-sky-400 font-bold w-16 text-right">45 años</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: FAMILIA & ENFOQUE SOCIAL -->
+          <div id="card-step-2" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">Núcleo Familiar & Enfoque</h4>
+              <p class="text-[11px] text-slate-400">Para calcular los beneficiarios indirectos y puntaje social.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div class="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2">
+                <label class="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                  <span>¿Cuántas personas viven en la finca?</span>
+                  <span class="text-sky-400 font-bold font-mono text-base" id="wiz-familia-val">4 personas</span>
+                </label>
+                <div class="flex items-center justify-between gap-3 pt-1">
+                  <button type="button" onclick="adjustFamilyCount(-1)" class="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center font-bold text-sm">
+                    <i class="ph-bold ph-minus"></i>
+                  </button>
+                  <p class="text-[10px] text-slate-400 text-center">Titular + Esposa + Hijos en el predio</p>
+                  <button type="button" onclick="adjustFamilyCount(1)" class="w-10 h-10 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center font-bold text-sm">
+                    <i class="ph-bold ph-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-[11px] font-semibold text-slate-300">Población / Etnia:</label>
+                <div class="grid grid-cols-2 gap-2" id="etnia-chips">
+                  <button type="button" onclick="selectEtnia('Campesino', this)" class="chip-toggle active px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🌾 Campesino
+                  </button>
+                  <button type="button" onclick="selectEtnia('Indígena', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🏹 Indígena
+                  </button>
+                  <button type="button" onclick="selectEtnia('Afrodescendiente', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🥁 Afrodescendiente
+                  </button>
+                  <button type="button" onclick="selectEtnia('LGBTI', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    🌈 LGBTI+
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold text-white block">¿Víctima del Conflicto Armado?</span>
+                  <span class="text-[10px] text-slate-400">Puntaje especial en convocatorias ADR</span>
+                </div>
+                <button type="button" id="wiz-btn-victima" onclick="toggleVictima()" class="w-12 h-6 rounded-full bg-sky-500 relative transition-colors duration-200">
+                  <span id="wiz-toggle-circle" class="block w-5 h-5 rounded-full bg-white shadow-md transform translate-x-6 transition-transform duration-200"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: FINCA & UBICACIÓN -->
+          <div id="card-step-3" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">Datos de la Finca y Territorio</h4>
+              <p class="text-[11px] text-slate-400">Ubicación veredal en el municipio de Argelia.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nombre de la Finca / Predio *</label>
+                <input type="text" id="wiz-finca" placeholder="Ej: Finca El Mirador" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-sky-400">
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-[11px] font-semibold text-slate-300">Selecciona la Vereda:</label>
+                <div class="grid grid-cols-2 gap-2" id="vereda-chips">
+                  <button type="button" onclick="selectVereda('El Mirador', this)" class="chip-toggle active px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Mirador
+                  </button>
+                  <button type="button" onclick="selectVereda('La Belleza', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 La Belleza
+                  </button>
+                  <button type="button" onclick="selectVereda('El Mango', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Mango
+                  </button>
+                  <button type="button" onclick="selectVereda('El Sinaí', this)" class="chip-toggle px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Sinaí
+                  </button>
+                  <button type="button" onclick="selectVereda('El Plateado Centro', this)" class="chip-toggle col-span-2 px-3 py-2.5 rounded-xl text-left text-xs font-medium">
+                    📍 El Plateado Centro
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Área Total (Hectáreas)</label>
+                  <input type="number" step="0.5" id="wiz-areatotal" value="5.0" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Altitud (m.s.n.m.)</label>
+                  <input type="number" id="wiz-altitud" value="1450" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 4: DIAGNÓSTICO ACTUAL -->
+          <div id="card-step-4" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">¿Qué Cultivo TIENE Sembrado Hoy?</h4>
+              <p class="text-[11px] text-slate-400">Diagnóstico de la producción actual en la finca.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div class="grid grid-cols-3 gap-2" id="cultivo-actual-chips">
+                <button type="button" onclick="selectCultivoActual('Café', this)" class="chip-toggle active p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">☕</span>
+                  <span class="font-semibold text-xs block">Café</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Cacao', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🍫</span>
+                  <span class="font-semibold text-xs block">Cacao</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Caña', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🎋</span>
+                  <span class="font-semibold text-xs block">Caña</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Plátano', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🍌</span>
+                  <span class="font-semibold text-xs block">Plátano</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Aguacate', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🥑</span>
+                  <span class="font-semibold text-xs block">Aguacate</span>
+                </button>
+                <button type="button" onclick="selectCultivoActual('Otro', this)" class="chip-toggle p-3 rounded-2xl text-center">
+                  <span class="text-xl block mb-1">🌱</span>
+                  <span class="font-semibold text-xs block">Otro</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Variedad Sembrada</label>
+                  <input type="text" id="wiz-variedad" value="Castillo Naranjal" placeholder="Ej: Castillo / CCN-51" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Área Sembrada (Ha)</label>
+                  <input type="number" step="0.5" id="wiz-hasembradas" value="3.0" oninput="recalcEstimatedTrees()" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-400/20 flex items-center justify-between text-xs">
+                <span class="text-slate-300">Estimación de plantas actuales:</span>
+                <span class="font-mono font-bold text-sky-300" id="wiz-trees-preview">15,000 árboles</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 5: PROYECCIÓN Y PROYECTO -->
+          <div id="card-step-5" class="space-y-4 hidden">
+            <div class="space-y-1">
+              <h4 class="text-sm font-bold text-white">¿Qué QUIERE Sembrar en el Proyecto?</h4>
+              <p class="text-[11px] text-slate-400">Interés real para estructuración del proyecto.</p>
+            </div>
+
+            <div class="space-y-3.5 pt-2">
+              <div class="grid grid-cols-2 gap-2" id="cultivo-deseado-chips">
+                <button type="button" onclick="selectCultivoDeseado('Cacao', this)" class="chip-toggle active p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">🍫 Cacao</span>
+                  <span class="text-[10px] text-slate-400">Línea Cacaotera</span>
+                </button>
+                <button type="button" onclick="selectCultivoDeseado('Café Especial', this)" class="chip-toggle p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">☕ Café Especial</span>
+                  <span class="text-[10px] text-slate-400">Variedades de Taza</span>
+                </button>
+                <button type="button" onclick="selectCultivoDeseado('Aguacate Hass', this)" class="chip-toggle p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">🥑 Aguacate Hass</span>
+                  <span class="text-[10px] text-slate-400">Exportación</span>
+                </button>
+                <button type="button" onclick="selectCultivoDeseado('Silvopastoril', this)" class="chip-toggle p-3 rounded-2xl text-left">
+                  <span class="text-sm font-bold block text-sky-300">🐄 Silvopastoril</span>
+                  <span class="text-[10px] text-slate-400">Ganadería Sostenible</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tierra Disponible (Ha)</label>
+                  <input type="number" step="0.5" id="wiz-hadisponibles" value="2.0" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400 font-mono">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">¿Requiere Riego?</label>
+                  <select id="wiz-riego" class="w-full text-xs rounded-2xl bg-slate-900/90 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-sky-400">
+                    <option value="Sí">Sí requiere</option>
+                    <option value="No">No requiere</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs flex items-center gap-2">
+                <i class="ph-bold ph-check-circle text-base text-emerald-400"></i>
+                <span>Ficha lista para ser guardada en la base de datos oficial.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Wizard Navigation Footer -->
+        <div class="p-5 border-t border-white/10 bg-white/[0.02] flex items-center justify-between">
+          <button type="button" id="wiz-btn-prev" onclick="wizardPrev()" class="apple-btn-secondary px-5 py-2.5 rounded-full text-xs text-slate-300 hidden flex items-center gap-1.5">
+            <i class="ph-bold ph-arrow-left"></i> Ficha Anterior
+          </button>
+
+          <div class="ml-auto flex items-center gap-2">
+            <button type="button" id="wiz-btn-next" onclick="wizardNext()" class="apple-btn-primary px-6 py-2.5 rounded-full text-white text-xs font-semibold flex items-center gap-1.5">
+              <span>Siguiente Ficha</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </button>
+            
+            <button type="button" id="wiz-btn-finish" onclick="wizardFinish()" class="apple-btn-primary px-7 py-2.5 rounded-full text-white text-xs font-bold hidden flex items-center gap-2 shadow-apple-glow">
+              <i class="ph-bold ph-floppy-disk text-sm"></i>
+              <span>Guardar en Base de Datos</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 5: CARTOGRAFÍA Y DESGLOSE POR VEREDAS                              -->
+    <!-- ======================================================================= -->
+    <div id="view-territorio" class="app-view hidden space-y-6">
+
+      <div class="liquid-glass rounded-3xl p-6 border border-white/15 space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/25 text-emerald-300 text-xs font-semibold">
+          <i class="ph-bold ph-compass"></i> Desglose Territorial
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black text-white">Veredas de El Plateado & Argelia</h2>
+        <p class="text-xs text-slate-400">
+          Supervisión territorial del censo. Haz clic en "Formular Proyecto" en cualquier vereda para abrir sus cruces directamente.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="territorio-cards-grid">
+        <!-- Rendered in JS -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- MODAL: EXPEDIENTE TÉCNICO DEL PRODUCTOR (APPLE GLASS SHEET)            -->
+  <!-- ======================================================================= -->
+  <div id="detail-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-2xl hidden items-center justify-center p-3 sm:p-4">
+    <div class="liquid-glass w-full max-w-xl rounded-3xl overflow-hidden border border-white/20 shadow-apple-glass relative flex flex-col max-h-[90vh]">
+      
+      <!-- Header Sheet -->
+      <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-sky-400 to-blue-600 text-white flex items-center justify-center font-black text-base shadow-apple-glow" id="detail-avatar">
+            J
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white" id="detail-name">Nombre Productor</h3>
+            <p class="text-[11px] text-slate-400" id="detail-cedula">C.C. 00.000.000</p>
+          </div>
+        </div>
+        <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 flex items-center justify-center text-xs transition">
+          <i class="ph-bold ph-x text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Scrollable Sheet Content -->
+      <div class="p-6 space-y-4 overflow-y-auto flex-1 text-xs">
+        
+        <!-- Social Info -->
+        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+          <span class="text-[10px] uppercase font-bold tracking-wider text-sky-400 block">Núcleo Familiar & Enfoque Social</span>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-white/5">
+              <span class="text-slate-400 text-[10px] block">Edad</span>
+              <span class="font-bold text-white text-xs" id="detail-edad">0</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-white/5">
+              <span class="text-slate-400 text-[10px] block">Enfoque</span>
+              <span class="font-bold text-white text-xs" id="detail-etnia">-</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-white/5">
+              <span class="text-slate-400 text-[10px] block">Víctima</span>
+              <span class="font-bold text-amber-300 text-xs" id="detail-victima">-</span>
+            </div>
